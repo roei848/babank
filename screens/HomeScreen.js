@@ -1,6 +1,15 @@
 import { View, Text, StyleSheet } from "react-native";
+import { useReports } from "../context/ReportContext";
 
 const HomeScreen = () => {
+  const { reports, loading } = useReports();
+
+  console.log(reports);
+  
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
