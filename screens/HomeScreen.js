@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
-import { useReports } from "../context/ReportContext";
+import { useReports } from "../store/ReportContext";
 
 const HomeScreen = () => {
   const { reports, loading } = useReports();
 
   console.log(reports);
-  
+
   if (loading) {
     return <Text>Loading...</Text>;
   }

@@ -13,7 +13,7 @@ const ReportsContext = createContext();
 export const useReports = () => useContext(ReportsContext);
 
 // Provider component
-export const ReportsProvider = ({ userId, children }) => {
+const ReportsProvider = ({ userId, children }) => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -66,3 +66,5 @@ export const ReportsProvider = ({ userId, children }) => {
     </ReportsContext.Provider>
   );
 };
+
+export default ReportsProvider;
