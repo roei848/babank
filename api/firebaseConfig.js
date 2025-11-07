@@ -1,19 +1,33 @@
 // firebaseConfig.js
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps, getApp } from "firebase/app";
+import { getAuth, initializeAuth, getReactNativePersistence } from "firebase/auth";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFirestore } from "firebase/firestore";
 
-// ⚙️ Replace with your own Firebase config from console
+// ✅ Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBX8G4aEkeUtBfhybBBXShq47NKO6oksUk",
   authDomain: "babank-b99ee.firebaseapp.com",
   projectId: "babank-b99ee",
-  storageBucket: "babank-b99ee.firebasestorage.app",
+  storageBucket: "babank-b99ee.appspot.com",
   messagingSenderId: "677543762039",
-  appId: "1:677543762039:web:3cf89564e011e77f014e72"
+  appId: "1:677543762039:web:3cf89564e011e77f014e72",
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// ✅ Initialize Firebase once
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-export default db;
+// ✅ Initialize Auth with AsyncStorage persistence
+let auth;
+try {
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(AsyncStorage),
+  });
+} catch (e) {
+  auth = getAuth(app);
+}
+
+// ✅ Firestore instance
+export const db = getFirestore(app);
+export { auth };
+export default app;

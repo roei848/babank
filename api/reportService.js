@@ -1,144 +1,89 @@
 // reportService.js
-import {
-  collection,
-  addDoc,
-  getDocs,
-  getDoc,
-  doc,
-  query,
-  where,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import { collection, doc, addDoc, getDocs, getDoc, Timestamp } from "firebase/firestore";
+import Report from "../models/Report";
+import { db, auth } from "./firebaseConfig";
 
-import db from "./firebaseConfig.js";
-import Report from "../models/Report.js";
 /**
- * Save a new report to Firestore
- * @param {string} userId - ID of the user
- * @param {Report} report - Report instance
- * @returns {Promise<string>} Firestore document ID
+ * Save a new report for the logged-in user
+ * @param {Report} report - instance of Report class
  */
-export async function saveReport(userId, report) {
-  try {
-    const reportsRef = collection(db, "users", userId, "reports");
-    const docRef = await addDoc(reportsRef, {
-      date: report.date,
-      title: report.title,
-      month: report.month,
-      incomes: report.incomes,
-      expenses: report.expenses,
-      majorExpenses: report.majorExpenses,
-      accounts: report.accounts,
-    });
-    console.log("Report saved with ID:", docRef.id);
-    return docRef.id;
-  } catch (error) {
-    console.error("Error saving report:", error);
-    throw error;
-  }
+export async function addReport(report) {
+  console.log("auth", auth);
+  const user = auth.currentUser;
+  console.log("user", user);
+  if (!user) throw new Error("User not authenticated");
+
+  const reportsRef = collection(db, "users", user.uid, "reports");
+  console.log("reportsRef", reportsRef);
+  await addDoc(reportsRef, {
+    date: report.date,
+    title: report.title,
+    month: report.month,
+    incomes: report.incomes,
+    expenses: report.expenses,
+    majorExpenses: report.majorExpenses,
+    accounts: report.accounts,
+    createdAt: Timestamp.now(),
+  });
 }
 
 /**
- * Fetch all reports for a given user
- * @param {string} userId - ID of the user
+ * Fetch all reports for the current user
  * @returns {Promise<Report[]>}
  */
-export async function getAllReports(userId) {
-  try {
-    const reportsRef = collection(db, "users", userId, "reports");
-    const snapshot = await getDocs(reportsRef);
-    const reports = snapshot.docs.map((doc) => {
-      const data = doc.data();
-      return new Report(
-        data.date.toDate ? data.date.toDate() : data.date,
-        data.title,
-        data.month,
-        data.incomes,
-        data.expenses,
-        data.majorExpenses,
-        data.accounts
-      );
-    });
-    return reports;
-  } catch (error) {
-    console.error("Error fetching reports:", error);
-    throw error;
-  }
+export async function getUserReports() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) throw new Error("User not authenticated");
+
+  const reportsRef = collection(db, "users", user.uid, "reports");
+  const snapshot = await getDocs(reportsRef);
+
+  const reports = snapshot.docs.map((docSnap) => {
+    const data = docSnap.data();
+
+    // reconstruct a Report instance
+    return new Report(
+      data.date,
+      data.title,
+      data.month,
+      data.incomes,
+      data.expenses,
+      data.majorExpenses,
+      data.accounts
+    );
+  });
+
+  return reports;
 }
 
 /**
- * Fetch reports by month
- * @param {string} userId - ID of the user
- * @param {string} month - MonthEnum value
- * @returns {Promise<object[]>}
+ * Fetch a specific report by ID for the current user
+ * @param {string} reportId
+ * @returns {Promise<Report>}
  */
-export async function getReportsByMonth(userId, month) {
-  try {
-    const reportsRef = collection(db, "users", userId, "reports");
-    const q = query(reportsRef, where("month", "==", month));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-  } catch (error) {
-    console.error("Error fetching reports by month:", error);
-    throw error;
-  }
-}
+export async function getReportById(reportId) {
+  const auth = getAuth();
+  const user = auth.currentUser;
 
-/**
- * Fetch a single report by ID
- * @param {string} userId - ID of the user
- * @param {string} reportId - Firestore document ID
- * @returns {Promise<object|null>}
- */
-export async function getReportById(userId, reportId) {
-  try {
-    const docRef = doc(db, "users", userId, "reports", reportId);
-    const snapshot = await getDoc(docRef);
-    if (snapshot.exists()) {
-      return snapshot.data();
-    } else {
-      console.log("No report found with that ID");
-      return null;
-    }
-  } catch (error) {
-    console.error("Error fetching report by ID:", error);
-    throw error;
-  }
-}
+  if (!user) throw new Error("User not authenticated");
 
-/**
- * Update an existing report
- * @param {string} userId - ID of the user
- * @param {string} reportId - Firestore document ID
- * @param {object} updatedFields - Partial fields to update
- */
-export async function updateReport(userId, reportId, updatedFields) {
-  try {
-    const reportRef = doc(db, "users", userId, "reports", reportId);
-    await updateDoc(reportRef, updatedFields);
-    console.log("Report updated successfully!");
-  } catch (error) {
-    console.error("Error updating report:", error);
-    throw error;
-  }
-}
+  const reportRef = doc(db, "users", user.uid, "reports", reportId);
+  const snapshot = await getDoc(reportRef);
 
-/**
- * Delete a report by ID
- * @param {string} userId - ID of the user
- * @param {string} reportId - Firestore document ID
- */
-export async function deleteReport(userId, reportId) {
-  try {
-    const reportRef = doc(db, "users", userId, "reports", reportId);
-    await deleteDoc(reportRef);
-    console.log("Report deleted successfully!");
-  } catch (error) {
-    console.error("Error deleting report:", error);
-    throw error;
+  if (!snapshot.exists()) {
+    throw new Error("Report not found");
   }
+
+  const data = snapshot.data();
+  return new Report(
+    data.date,
+    data.title,
+    data.month,
+    data.incomes,
+    data.expenses,
+    data.majorExpenses,
+    data.accounts
+  );
 }

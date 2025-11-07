@@ -1,25 +1,15 @@
-import axios from 'axios';
+// auth.js
+import { auth } from "./firebaseConfig";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
-const API_KEY = 'AIzaSyBX8G4aEkeUtBfhybBBXShq47NKO6oksUk';
+export async function createUser(email, password) {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  console.log("User created:", userCredential.user.uid);
+  return userCredential.user;
+}
 
-const authenticate = async (email, password, mode) => {
-  const url = `https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${API_KEY}`;
-
-  const response = await axios.post(url, {
-    email,
-    password,
-    returnSecureToken: true,
-  });
-
-  console.log("response", response.data);
-  const res = response.data;
-  return res;
-};
-
-export const createUser = (email, password) => {
-  return authenticate(email, password, 'signUp');
-};
-
-export const login = (email, password) => {
-  return authenticate(email, password, 'signInWithPassword');
-};
+export async function login(email, password) {
+  const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  console.log("User logged in:", userCredential.user.uid);
+  return userCredential.user;
+}

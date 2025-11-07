@@ -13,13 +13,21 @@ function SignupScreen() {
     try {
       console.log("credentials", credentials);
       setIsAuthenticating(true);
-      const res = await createUser(credentials.email, credentials.password);
-      const token = res.idToken;
+
+      // Create user in Firebase Auth (SDK)
+      const user = await createUser(credentials.email, credentials.password);
+
+      // Get token from the user object
+      const token = await user.getIdToken();
+
       console.log("token", token);
+
+      // Save token in your AuthContext (if you still use it for navigation)
       authCtx.authenticate(token);
+
     } catch (error) {
-      console.log("error", error);
-      Alert.alert("Authentication failed", "Please check your credentials.");
+      console.error("Signup error:", error);
+      Alert.alert("Authentication failed", "Please check your credentials or try again later.");
       setIsAuthenticating(false);
     }
   };
