@@ -9,10 +9,8 @@ import { AuthContext } from "./store/auth-context";
 
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
-import HomeScreen from "./screens/HomeScreen";
-import HistoryReportsScreen from "./screens/HistoryReportsScreen";
-import AddReportScreen from "./screens/AddReportScreen";
 import ReportDetailsScreen from "./screens/ReportDetailsScreen";
+import TabNavigator from "./navigation/TabNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -43,13 +41,7 @@ function AuthenticatedStack() {
   return (
     <ReportsProvider>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen name="HistoryReports" component={HistoryReportsScreen} />
-        <Stack.Screen name="AddReport" component={AddReportScreen} />
+        <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
         <Stack.Screen name="ReportDetails" component={ReportDetailsScreen} />
       </Stack.Navigator>
     </ReportsProvider>
