@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import ReportsProvider from "./store/ReportContext";
+import ReportsProvider from "./store/report-context";
 import AuthContextProvider from "./store/auth-context";
 import { AuthContext } from "./store/auth-context";
 

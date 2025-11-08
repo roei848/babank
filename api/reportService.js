@@ -32,7 +32,6 @@ export async function addReport(report) {
  * @returns {Promise<Report[]>}
  */
 export async function getUserReports() {
-  const auth = getAuth();
   const user = auth.currentUser;
 
   if (!user) throw new Error("User not authenticated");
@@ -64,7 +63,6 @@ export async function getUserReports() {
  * @returns {Promise<Report>}
  */
 export async function getReportById(reportId) {
-  const auth = getAuth();
   const user = auth.currentUser;
 
   if (!user) throw new Error("User not authenticated");
