@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useReports } from "../store/report-context";
-import Title from "../components/ui/Title";
 import ReportCard from "../components/reports/ReportCard";
 
 const HistoryReportsScreen = () => {
@@ -37,7 +36,6 @@ const HistoryReportsScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Title>History Reports</Title>
       <FlatList
         data={sortedReports}
         keyExtractor={(item, index) => item.id || index.toString()}
@@ -54,7 +52,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f9f9f9",
-    paddingTop: 40,
   },
   centered: {
     flex: 1,

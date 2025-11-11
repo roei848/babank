@@ -16,8 +16,6 @@ const Stack = createNativeStackNavigator();
 
 // ----- Auth stack -----
 function AuthStack() {
-  console.log("got here in AuthStack");
-
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -36,12 +34,14 @@ function AuthStack() {
 
 // ----- Authenticated stack -----
 function AuthenticatedStack() {
-  console.log("got here in AuthenticatedStack");
-
   return (
     <ReportsProvider>
       <Stack.Navigator>
-        <Stack.Screen name="TabNavigator" component={TabNavigator} options={{ headerShown: false }}/>
+        <Stack.Screen
+          name="TabNavigator"
+          component={TabNavigator}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen name="ReportDetails" component={ReportDetailsScreen} />
       </Stack.Navigator>
     </ReportsProvider>
@@ -50,7 +50,6 @@ function AuthenticatedStack() {
 
 function Navigation() {
   const authCtx = useContext(AuthContext);
-  console.log("got here in Navigation", authCtx);
 
   return (
     <NavigationContainer>

@@ -12,7 +12,6 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        headerShown: false,
         tabBarActiveTintColor: "#007AFF",
         tabBarInactiveTintColor: "#999",
         tabBarStyle: {
@@ -22,22 +21,40 @@ const TabNavigator = () => {
           height: 60,
           paddingBottom: 6,
         },
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
-
-          if (route.name === "Home") iconName = "home-outline";
-          else if (route.name === "History") iconName = "list-outline";
-          else if (route.name === "Add Report") iconName = "add-circle-outline";
-
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="History" component={HistoryReportsScreen} />
-      <Tab.Screen name="Add Report" component={AddReportScreen} />
+      <Tab.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: "Home",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="History"
+        component={HistoryReportsScreen}
+        options={{
+          title: "History",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="list" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="AddReport"
+        component={AddReportScreen}
+        options={{
+          title: "Add Report",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="add-circle" size={size} color={color} />
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
-}
+};
 
 export default TabNavigator;

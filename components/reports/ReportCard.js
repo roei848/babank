@@ -1,17 +1,29 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-const  ReportCard = ({ report }) => {
+const ReportCard = ({ report }) => {
+  const navigation = useNavigation();
+
+  const handlePress = () => {
+    navigation.navigate("ReportDetails", { report: report });
+  };
+
   return (
-    <View style={styles.reportCard}>
+    <Pressable
+      style={({ pressed }) => [styles.reportCard, pressed && styles.pressed]}
+      onPress={handlePress}
+    >
       <Text style={styles.title}>{report.title}</Text>
       <Text style={styles.subtitle}>
-        Month: {report.month} | Date: {new Date(report.date).toLocaleDateString()}
+        Month: {report.month} | Date:{" "}
+        {new Date(report.date).toLocaleDateString()}
       </Text>
       <Text style={styles.net}>
-        Net Result: {report.netResult ?? report.totalIncome - report.totalExpenses} ₪
+        Net Result:{" "}
+        {report.netResult ?? report.totalIncome - report.totalExpenses} ₪
       </Text>
-    </View>
+    </Pressable>
   );
 };
 
@@ -44,5 +56,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#007AFF",
     marginTop: 6,
+  },
+  pressed: {
+    opacity: 0.7,
   },
 });

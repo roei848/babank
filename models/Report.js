@@ -20,6 +20,15 @@ export const MonthEnum = {
     MEITAV: "MEITAV",
     CLAL: "CLAL",
   };
+
+  export const LocationTitleMap = {
+    [LocationEnum.OTZAR_HAYAL]: "Otzar Hayal",
+    [LocationEnum.ANALYST]: "Analyst Brokerage",
+    [LocationEnum.MEITAV]: "Meitav Fund",
+    [LocationEnum.CLAL]: "Clal Insurance",
+  };
+
+  
   
   // Supporting classes
   class Outcome {
