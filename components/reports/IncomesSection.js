@@ -2,8 +2,6 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import Outcome from "./Outcome";
 
 const IncomesSection = ({ incomes }) => {
-  console.log("incomes", incomes);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Incomes</Text>

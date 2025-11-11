@@ -2,8 +2,6 @@ import { View, Text, StyleSheet } from "react-native";
 import { LocationTitleMap } from "../../models/Report";
 
 const AccountItem = ({ account }) => {
-  console.log("account", account);
-
   return (
     <View style={styles.container}>
       <View style={styles.nameContainer}>

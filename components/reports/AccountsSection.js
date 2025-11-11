@@ -2,8 +2,6 @@ import { View, Text, StyleSheet, FlatList } from "react-native";
 import AccountItem from "./AccountItem";
 
 const AccountsSection = ({ accounts }) => {
-  console.log("accounts", accounts);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Accounts</Text>

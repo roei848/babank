@@ -1,7 +1,8 @@
 // reportService.js
-import { collection, doc, addDoc, getDocs, getDoc, Timestamp } from "firebase/firestore";
+import { collection, doc, addDoc, getDocs, getDoc, Timestamp, query, orderBy, limit } from "firebase/firestore";
 import Report from "../models/Report";
 import { db, auth } from "./firebaseConfig";
+
 
 /**
  * Save a new report for the logged-in user
@@ -75,6 +76,40 @@ export async function getReportById(reportId) {
   }
 
   const data = snapshot.data();
+  return new Report(
+    data.date,
+    data.title,
+    data.month,
+    data.incomes,
+    data.expenses,
+    data.majorExpenses,
+    data.accounts
+  );
+}
+
+/**
+ * Fetch the last report (by date) for the current user
+ * @returns {Promise<Report>}
+ */
+export async function getLastReportFromUser() {
+  const user = auth.currentUser;
+  console.log("user", user);
+  if (!user) throw new Error("User not authenticated");
+
+  const reportsRef = collection(db, "users", user.uid, "reports");
+  console.log("reportsRef", reportsRef);
+  // Order by the 'date' field descending and get the first one
+  const q = query(reportsRef, orderBy("date", "desc"), limit(1));
+  console.log("q", q);
+  const snapshot = await getDocs(q);
+  console.log("snapshot", snapshot);
+  if (snapshot.empty) {
+    throw new Error("No reports found");
+  }
+
+  const docSnap = snapshot.docs[0];
+  const data = docSnap.data();
+
   return new Report(
     data.date,
     data.title,
