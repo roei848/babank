@@ -9,13 +9,10 @@ import { db, auth } from "./firebaseConfig";
  * @param {Report} report - instance of Report class
  */
 export async function addReport(report) {
-  console.log("auth", auth);
   const user = auth.currentUser;
-  console.log("user", user);
   if (!user) throw new Error("User not authenticated");
 
   const reportsRef = collection(db, "users", user.uid, "reports");
-  console.log("reportsRef", reportsRef);
   await addDoc(reportsRef, {
     date: report.date,
     title: report.title,
@@ -93,16 +90,12 @@ export async function getReportById(reportId) {
  */
 export async function getLastReportFromUser() {
   const user = auth.currentUser;
-  console.log("user", user);
   if (!user) throw new Error("User not authenticated");
 
   const reportsRef = collection(db, "users", user.uid, "reports");
-  console.log("reportsRef", reportsRef);
   // Order by the 'date' field descending and get the first one
   const q = query(reportsRef, orderBy("date", "desc"), limit(1));
-  console.log("q", q);
   const snapshot = await getDocs(q);
-  console.log("snapshot", snapshot);
   if (snapshot.empty) {
     throw new Error("No reports found");
   }

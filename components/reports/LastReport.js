@@ -5,7 +5,6 @@ import IncomesSection from "./IncomesSection";
 import AccountsSection from "./AccountsSection";
 
 const LastReport = ({ report }) => {
-  console.log("report", report);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

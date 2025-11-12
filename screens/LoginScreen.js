@@ -19,8 +19,6 @@ function LoginScreen() {
       // Get the ID token
       const token = await user.getIdToken();
 
-      console.log("Logged in user token:", token);
-
       // Pass token to your AuthContext
       authCtx.authenticate(token);
     } catch (error) {

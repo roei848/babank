@@ -6,7 +6,6 @@ import AccountsSection from "../components/reports/AccountsSection";
 
 const ReportDetailsScreen = ({ route }) => {
   const { report } = route.params;
-  console.log("report", report);
 
   return (
     <View style={styles.container}>

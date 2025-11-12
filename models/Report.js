@@ -31,14 +31,14 @@ export const MonthEnum = {
   
   
   // Supporting classes
-  class Outcome {
+  export class Outcome {
     constructor(amount, description) {
       this.amount = amount;
       this.description = description;
     }
   }
   
-  class Account {
+  export class Account {
     constructor(balance, name, location) {
       this.balance = balance;
       this.name = name;
@@ -47,7 +47,7 @@ export const MonthEnum = {
   }
   
   // Main Report class
-  class Report {
+class Report {
     constructor(date, title, month, incomes = [], expenses = [], majorExpenses = [], accounts = []) {
       this.date = date;
       this.title = title;

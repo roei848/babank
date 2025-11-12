@@ -14,7 +14,6 @@ const HomeScreen = () => {
     setIsLoading(true);
     const fetchLastReport = async () => {
       const report = await getLastReportFromUser();
-      console.log("report", report);
       setLastReport(report);
       setIsLoading(false);
     };

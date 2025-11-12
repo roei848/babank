@@ -11,7 +11,6 @@ function SignupScreen() {
 
   const signupHandler = async (credentials) => {
     try {
-      console.log("credentials", credentials);
       setIsAuthenticating(true);
 
       // Create user in Firebase Auth (SDK)
@@ -19,8 +18,6 @@ function SignupScreen() {
 
       // Get token from the user object
       const token = await user.getIdToken();
-
-      console.log("token", token);
 
       // Save token in your AuthContext (if you still use it for navigation)
       authCtx.authenticate(token);
