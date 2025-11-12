@@ -11,7 +11,6 @@ const HomeScreen = () => {
   const [lastReport, setLastReport] = useState(null);
 
   useEffect(() => {
-    console.log("fetching last report");
     setIsLoading(true);
     const fetchLastReport = async () => {
       const report = await getLastReportFromUser();

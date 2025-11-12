@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../screens/HomeScreen";
 import HistoryReportsScreen from "../screens/HistoryReportsScreen";
 import AddReportScreen from "../screens/AddReportScreen";
+import LogoutScreen from "../screens/LogoutScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -50,6 +51,16 @@ const TabNavigator = () => {
           title: "Add Report",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-circle" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Logout"
+        component={LogoutScreen}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="log-out-outline" size={size} color={color} />
           ),
         }}
       />
