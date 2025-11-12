@@ -6,22 +6,27 @@ import HomeScreen from "../screens/HomeScreen";
 import HistoryReportsScreen from "../screens/HistoryReportsScreen";
 import AddReportScreen from "../screens/AddReportScreen";
 import LogoutScreen from "../screens/LogoutScreen";
+import { Colors } from "../constants/style";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarActiveTintColor: "#007AFF",
-        tabBarInactiveTintColor: "#999",
+      screenOptions={() => ({
+        tabBarActiveTintColor: Colors.primary500,
+        tabBarInactiveTintColor: Colors.primary800,
         tabBarStyle: {
-          backgroundColor: "#fff",
-          borderTopWidth: 0.2,
-          borderTopColor: "#ccc",
+          backgroundColor: Colors.surface,
+          borderTopWidth: 0.4,
+          borderTopColor: Colors.border,
           height: 60,
           paddingBottom: 6,
         },
+        headerStyle: {
+          backgroundColor: Colors.surface,
+        },
+        headerTintColor: Colors.primary800,
       })}
     >
       <Tab.Screen
