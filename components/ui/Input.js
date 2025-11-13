@@ -16,13 +16,11 @@ function Input({
       <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
         {label}
       </Text>
-      <View style={styles.inputWrapper}>
+
+      {/* Apply invalid style to wrapper, not TextInput */}
+      <View style={[styles.inputWrapper, isInvalid && styles.inputWrapperInvalid]}>
         <TextInput
-          style={[
-            styles.input,
-            isInvalid && styles.inputInvalid,
-            amount && styles.inputWithAmount,
-          ]}
+          style={[styles.input, amount && styles.inputWithAmount]}
           autoCapitalize="none"
           keyboardType={keyboardType}
           secureTextEntry={secure}
@@ -58,23 +56,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     height: 40,
   },
+  inputWrapperInvalid: {
+    backgroundColor: Colors.error100, // highlight full box
+  },
   input: {
     flex: 1,
-    paddingVertical: 0, // ✅ makes text vertically centered
+    paddingVertical: 0,
     fontSize: 16,
     color: Colors.primary800,
-    textAlignVertical: "center", // ✅ Android fix
+    textAlignVertical: "center",
   },
   inputWithAmount: {
-    paddingRight: 4, // space before currency sign
+    paddingRight: 4,
   },
   currencySymbol: {
     fontSize: 16,
     color: Colors.primary800,
     marginLeft: 6,
-    lineHeight: 18, // ✅ balances vertical centering
-  },
-  inputInvalid: {
-    backgroundColor: Colors.error100,
+    lineHeight: 18,
   },
 });

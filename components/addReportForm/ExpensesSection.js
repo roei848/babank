@@ -15,6 +15,7 @@ export default function ExpensesSection({
   onAdd,
   onChange,
   onRemove,
+  invalidItems,
 }) {
   return (
     <>
@@ -28,14 +29,16 @@ export default function ExpensesSection({
                 value={item.description}
                 onUpdateValue={(val) => onChange(index, "description", val)}
                 style={styles.description}
+                isInvalid={invalidItems[index]?.description || false}
               />
               <Input
                 amount
-                label={`Amount`}
+                label="Amount"
                 keyboardType="numeric"
                 value={item.amount}
                 onUpdateValue={(val) => onChange(index, "amount", val)}
                 style={styles.amount}
+                isInvalid={invalidItems[index]?.amount || false}
               />
               <RemoveButton onPress={() => onRemove(index)} />
             </View>

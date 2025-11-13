@@ -4,11 +4,11 @@ import RNPickerSelect from "react-native-picker-select";
 import { Colors } from "../../constants/style";
 import { Ionicons } from "@expo/vector-icons";
 
-const SelectInput = ({ label, items, value, onValueChange, style }) => {
+const SelectInput = ({ label, items, value, onValueChange, style, isInvalid = false }) => {
   return (
     <View style={[styles.inputContainer, style]}>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.selectContainer}>
+      <Text style={[styles.label, isInvalid && styles.labelInvalid]}>{label}</Text>
+      <View style={[styles.selectContainer, isInvalid && styles.selectContainerInvalid]}>
         <RNPickerSelect
           onValueChange={onValueChange}
           value={value}
@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     fontWeight: "500",
   },
+  labelInvalid: {
+    color: Colors.error500,
+  },
   selectContainer: {
     backgroundColor: Colors.primary100,
     borderRadius: 4,
@@ -55,5 +58,8 @@ const styles = StyleSheet.create({
   iconContainer: {
     top: 14,
     right: 10,
+  },
+  selectContainerInvalid: {
+    backgroundColor: Colors.error100,
   },
 });

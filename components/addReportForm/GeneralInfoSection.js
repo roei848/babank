@@ -14,6 +14,8 @@ export default function GeneralInfoSection({
   month,
   onChangeTitle,
   onChangeMonth,
+  invalidTitle,
+  invalidMonth,
 }) {
   return (
     <>
@@ -29,12 +31,14 @@ export default function GeneralInfoSection({
             label="Title"
             value={title}
             onUpdateValue={onChangeTitle}
+            isInvalid={invalidTitle}
           />
           <SelectInput
             style={styles.selectInput}
             label="Month"
             value={month}
             onValueChange={onChangeMonth}
+            isInvalid={invalidMonth}
             items={Object.values(MonthEnum).map((m) => ({
               label: m.charAt(0) + m.slice(1).toLowerCase(),
               value: m,

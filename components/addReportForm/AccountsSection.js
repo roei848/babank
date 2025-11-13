@@ -16,6 +16,7 @@ export default function AccountsSection({
   onAdd,
   onChange,
   onRemove,
+  invalidItems,
 }) {
   return (
     <>
@@ -31,6 +32,7 @@ export default function AccountsSection({
                   value={item.name}
                   onUpdateValue={(val) => onChange(index, "name", val)}
                   style={styles.nameInput}
+                  isInvalid={invalidItems[index]?.name || false}
                 />
                 <Input
                   label="Balance"
@@ -39,6 +41,7 @@ export default function AccountsSection({
                   value={item.balance}
                   onUpdateValue={(val) => onChange(index, "balance", val)}
                   style={styles.balanceInput}
+                  isInvalid={invalidItems[index]?.balance || false}
                 />
               </View>
 
@@ -53,6 +56,7 @@ export default function AccountsSection({
                     value: loc,
                   }))}
                   style={styles.locationInput}
+                  isInvalid={invalidItems[index]?.location || false}
                 />
                 <RemoveButton onPress={() => onRemove(index)} />
               </View>
