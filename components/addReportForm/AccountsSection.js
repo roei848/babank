@@ -1,4 +1,3 @@
-// components/report/AccountsSection.js
 import { View, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
 
@@ -24,30 +23,42 @@ export default function AccountsSection({
       <Collapsible collapsed={!expanded}>
         <View style={styles.sectionContent}>
           {accounts.map((item, index) => (
-            <View key={index} style={styles.itemRow}>
-              <Input
-                label="Account Name"
-                value={item.name}
-                onUpdateValue={(val) => onChange(index, "name", val)}
-              />
-              <Input
-                label="Balance"
-                value={item.balance}
-                keyboardType="numeric"
-                onUpdateValue={(val) => onChange(index, "balance", val)}
-              />
-              <SelectInput
-                label="Location"
-                value={item.location}
-                onValueChange={(val) => onChange(index, "location", val)}
-                items={Object.values(LocationEnum).map((loc) => ({
-                  label: LocationTitleMap[loc],
-                  value: loc,
-                }))}
-              />
-              <RemoveButton onPress={() => onRemove(index)} />
+            <View key={index} style={styles.accountBlock}>
+              {/* Row 1 — Name + Balance */}
+              <View style={styles.row}>
+                <Input
+                  label="Account Name"
+                  value={item.name}
+                  onUpdateValue={(val) => onChange(index, "name", val)}
+                  style={styles.nameInput}
+                />
+                <Input
+                  label="Balance"
+                  amount
+                  keyboardType="numeric"
+                  value={item.balance}
+                  onUpdateValue={(val) => onChange(index, "balance", val)}
+                  style={styles.balanceInput}
+                />
+              </View>
+
+              {/* Row 2 — Location + Remove */}
+              <View style={styles.row}>
+                <SelectInput
+                  label="Location"
+                  value={item.location}
+                  onValueChange={(val) => onChange(index, "location", val)}
+                  items={Object.values(LocationEnum).map((loc) => ({
+                    label: LocationTitleMap[loc],
+                    value: loc,
+                  }))}
+                  style={styles.locationInput}
+                />
+                <RemoveButton onPress={() => onRemove(index)} />
+              </View>
             </View>
           ))}
+
           <AddButton onPress={onAdd} label="Add Account" />
         </View>
       </Collapsible>
@@ -62,21 +73,22 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
   },
-  itemRow: {
-    marginBottom: 12,
+  accountBlock: {
+    marginBottom: 16,
+    gap: 10,
   },
-  addBtn: {
+  row: {
     flexDirection: "row",
-    alignItems: "center",
-    marginTop: 8,
+    alignItems: "flex-end",
+    gap: 12,
   },
-  addBtnText: {
-    marginLeft: 6,
-    color: Colors.accent800,
-    fontWeight: "600",
+  nameInput: {
+    flex: 6,
   },
-  removeBtn: {
-    alignSelf: "flex-end",
-    marginTop: 4,
+  balanceInput: {
+    flex: 4,
+  },
+  locationInput: {
+    flex: 1,
   },
 });

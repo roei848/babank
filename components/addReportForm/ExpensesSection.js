@@ -61,20 +61,6 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     gap: 12,
   },
-  addBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  addBtnText: {
-    marginLeft: 6,
-    color: Colors.accent800,
-    fontWeight: "600",
-  },
-  removeBtn: {
-    alignSelf: "flex-end",
-    marginTop: 4,
-  },
   description: {
     flex: 6,
   },
