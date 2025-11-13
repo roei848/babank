@@ -16,8 +16,6 @@ function Input({
       <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
         {label}
       </Text>
-
-      {/* Apply invalid style to wrapper, not TextInput */}
       <View style={[styles.inputWrapper, isInvalid && styles.inputWrapperInvalid]}>
         <TextInput
           style={[styles.input, amount && styles.inputWithAmount]}

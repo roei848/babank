@@ -17,8 +17,8 @@ import ExpensesSection from "../components/addReportForm/ExpensesSection";
 import MajorExpensesSection from "../components/addReportForm/MajorExpensesSection";
 import AccountsSection from "../components/addReportForm/AccountsSection";
 import { validateForm } from "../utils/Validation";
+import { useReports } from "../store/report-context";
 
-import { addReport } from "../api/reportService";
 import Report, { LocationEnum } from "../models/Report";
 
 // Enable layout animation on Android
@@ -29,7 +29,9 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default function AddReportScreen() {
+export default function AddReportScreen({ navigation }) {
+  const { addReport } = useReports();
+
   // ────────── State ──────────
   const [title, setTitle] = useState("");
   const [month, setMonth] = useState("");
@@ -53,6 +55,7 @@ export default function AddReportScreen() {
     majorExpenses: false,
     accounts: false,
   });
+  const [isSaving, setIsSaving] = useState(false);
 
   const toggle = (key) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -92,6 +95,7 @@ export default function AddReportScreen() {
 
   // ────────── Save Handler ──────────
   const handleSave = async () => {
+    setIsSaving(true);
     const { errors, newInvalid } =  validateForm(
       title,
       month,
@@ -122,9 +126,12 @@ export default function AddReportScreen() {
         accounts
       );
       await addReport(report);
+      navigation.navigate("TabNavigator", { screen: "Home" });
       alert("Report saved successfully!");
     } catch (error) {
       alert("Error saving report: " + error.message);
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -192,8 +199,8 @@ export default function AddReportScreen() {
         invalidItems={invalidFields.accounts}
       />
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <Text style={styles.saveButtonText}>Save Report</Text>
+      <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={isSaving}>
+        <Text style={styles.saveButtonText}>{isSaving ? "Saving..." : "Save Report"}</Text>
       </TouchableOpacity>
     </ScrollView>
   );

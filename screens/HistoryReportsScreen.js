@@ -12,11 +12,6 @@ import ReportCard from "../components/reports/ReportCard";
 const HistoryReportsScreen = () => {
   const { reports, loading } = useReports();
 
-  // Sort reports by date (newest first)
-  const sortedReports = [...reports].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
-
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -26,7 +21,7 @@ const HistoryReportsScreen = () => {
     );
   }
 
-  if (sortedReports.length === 0) {
+  if (reports.length === 0) {
     return (
       <View style={styles.centered}>
         <Text style={styles.emptyText}>No reports found yet.</Text>
@@ -37,7 +32,7 @@ const HistoryReportsScreen = () => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={sortedReports}
+        data={reports}
         keyExtractor={(item, index) => item.id || index.toString()}
         renderItem={({ item }) => <ReportCard report={item} />}
         contentContainerStyle={{ padding: 16 }} 

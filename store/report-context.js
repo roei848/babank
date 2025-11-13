@@ -1,16 +1,12 @@
-// store/report-context.js
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { auth } from "../api/firebaseConfig";
-import {
-  addReport as saveReport,
-  getUserReports,
-  getReportById,
-} from "../api/reportService";
+import { auth, db } from "../api/firebaseConfig";
+import { addReport as saveReport, getReportById } from "../api/reportService";
+import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 
 // Create context
 const ReportsContext = createContext();
 
-// Custom hook to use the context
+// Custom hook
 export const useReports = () => useContext(ReportsContext);
 
 // Provider
@@ -18,7 +14,6 @@ const ReportsProvider = ({ children }) => {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Load reports when user is logged in
   useEffect(() => {
     const user = auth.currentUser;
     if (!user) {
@@ -27,38 +22,44 @@ const ReportsProvider = ({ children }) => {
       return;
     }
 
-    const fetchReports = async () => {
-      try {
-        setLoading(true);
-        const data = await getUserReports();
-        setReports(data);
-      } catch (error) {
-        console.error("Error loading reports:", error);
-      } finally {
+    // ✅ Create query to user's reports collection, ordered by date
+    const reportsRef = collection(db, "users", user.uid, "reports");
+    const q = query(reportsRef, orderBy("createdAt", "desc"));
+
+    // ✅ Subscribe to Firestore changes
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const reportsData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setReports(reportsData);
+        setLoading(false);
+      },
+      (error) => {
+        console.error("Error listening to reports:", error);
         setLoading(false);
       }
-    };
+    );
 
-    fetchReports();
+    // ✅ Cleanup when component unmounts or user logs out
+    return () => unsubscribe();
   }, [auth.currentUser]);
 
   // Add new report
   const addReport = async (report) => {
     try {
       await saveReport(report);
-      setReports((prev) => [...prev, report]);
     } catch (error) {
       console.error("Error adding report:", error);
     }
   };
 
-  // Refresh a single report (useful later for details screen)
   const refreshReport = async (reportId) => {
     try {
       const updated = await getReportById(reportId);
-      setReports((prev) =>
-        prev.map((r) => (r.id === reportId ? updated : r))
-      );
+      setReports((prev) => prev.map((r) => (r.id === reportId ? updated : r)));
     } catch (error) {
       console.error("Error refreshing report:", error);
     }
@@ -72,9 +73,7 @@ const ReportsProvider = ({ children }) => {
   };
 
   return (
-    <ReportsContext.Provider value={value}>
-      {children}
-    </ReportsContext.Provider>
+    <ReportsContext.Provider value={value}>{children}</ReportsContext.Provider>
   );
 };
 
