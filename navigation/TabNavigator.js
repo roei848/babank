@@ -1,4 +1,3 @@
-// navigation/MainTabs.js
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,6 +26,8 @@ const TabNavigator = () => {
           backgroundColor: Colors.surface,
         },
         headerTintColor: Colors.primary800,
+        swipeEnabled: false,
+        tabBarHideOnKeyboard: true
       })}
     >
       <Tab.Screen

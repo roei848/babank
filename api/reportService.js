@@ -11,7 +11,6 @@ import { db, auth } from "./firebaseConfig";
 export async function addReport(report) {
   const user = auth.currentUser;
   if (!user) throw new Error("User not authenticated");
-
   const reportsRef = collection(db, "users", user.uid, "reports");
   await addDoc(reportsRef, {
     date: report.date,
@@ -19,7 +18,6 @@ export async function addReport(report) {
     month: report.month,
     incomes: report.incomes,
     expenses: report.expenses,
-    majorExpenses: report.majorExpenses,
     accounts: report.accounts,
     createdAt: Timestamp.now(),
   });
@@ -47,7 +45,6 @@ export async function getUserReports() {
       data.month,
       data.incomes,
       data.expenses,
-      data.majorExpenses,
       data.accounts
     );
   });
@@ -79,7 +76,6 @@ export async function getReportById(reportId) {
     data.month,
     data.incomes,
     data.expenses,
-    data.majorExpenses,
     data.accounts
   );
 }
@@ -94,7 +90,7 @@ export async function getLastReportFromUser() {
 
   const reportsRef = collection(db, "users", user.uid, "reports");
   // Order by the 'date' field descending and get the first one
-  const q = query(reportsRef, orderBy("date", "desc"), limit(1));
+  const q = query(reportsRef, orderBy("createdAt", "desc"), limit(1));
   const snapshot = await getDocs(q);
   if (snapshot.empty) {
     throw new Error("No reports found");
@@ -109,7 +105,6 @@ export async function getLastReportFromUser() {
     data.month,
     data.incomes,
     data.expenses,
-    data.majorExpenses,
     data.accounts
   );
 }

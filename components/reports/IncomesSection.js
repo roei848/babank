@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import Outcome from "./Outcome";
+import Income from "./Income";
 
 const IncomesSection = ({ incomes }) => {
   return (
@@ -8,7 +8,7 @@ const IncomesSection = ({ incomes }) => {
       <FlatList
         data={incomes}
         keyExtractor={(item) => item.description}
-        renderItem={({ item }) => <Outcome outcome={item} />}
+        renderItem={({ item }) => <Income income={item} />}
       />
     </View>
   );

@@ -1,10 +1,20 @@
 // auth.js
-import { auth } from "./firebaseConfig";
+import { setDoc, doc } from "firebase/firestore";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+
+import { db, auth } from "./firebaseConfig";
 
 export async function createUser(email, password) {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-  return userCredential.user;
+  const user = userCredential.user;
+
+  // Create Firestore user doc
+  await setDoc(doc(db, "users", user.uid), {
+    email: user.email,
+    createdAt: new Date(),
+  });
+
+  return user;
 }
 
 export async function login(email, password) {

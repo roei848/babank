@@ -1,5 +1,5 @@
 // components/report/ExpensesSection.js
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import Collapsible from "react-native-collapsible";
 
 import Input from "../ui/Input";
@@ -15,6 +15,9 @@ export default function ExpensesSection({
   onAdd,
   onChange,
   onRemove,
+  onChangeMajor,
+  onAddMajor,
+  onRemoveMajor,
   invalidItems,
 }) {
   return (
@@ -22,28 +25,80 @@ export default function ExpensesSection({
       <SectionHeader title="Expenses" expanded={expanded} onPress={onToggle} />
       <Collapsible collapsed={!expanded}>
         <View style={styles.sectionContent}>
-          {expenses.map((item, index) => (
-            <View key={index} style={styles.itemRow}>
-              <Input
-                label="Description"
-                value={item.description}
-                onUpdateValue={(val) => onChange(index, "description", val)}
-                style={styles.description}
-                isInvalid={invalidItems[index]?.description || false}
+          {expenses.map((expense, index) => (
+            <View key={index} style={styles.expenseBlock}>
+              
+              {/* Payment Method Row */}
+              <View style={styles.itemRow}>
+                <Input
+                  label="Payment Method"
+                  value={expense.name}
+                  onUpdateValue={(val) => onChange(index, "name", val)}
+                  style={styles.paymentMethod}
+                  isInvalid={invalidItems[index]?.name || false}
+                />
+
+                <Input
+                  amount
+                  label="Total Amount"
+                  keyboardType="numeric"
+                  value={expense.total}
+                  onUpdateValue={(val) => onChange(index, "total", val)}
+                  style={styles.amount}
+                  isInvalid={invalidItems[index]?.total || false}
+                />
+
+                <RemoveButton onPress={() => onRemove(index)} />
+              </View>
+
+              {/* Major Expenses List */}
+              <Text style={styles.majorTitle}>Major Expenses</Text>
+
+              {expense.majorExpenses?.map((me, meIndex) => (
+                <View key={meIndex} style={styles.majorRow}>
+                  <Input
+                    label="Label"
+                    value={me.label}
+                    onUpdateValue={(val) =>
+                      onChangeMajor(index, meIndex, "label", val)
+                    }
+                    style={styles.majorLabel}
+                    isInvalid={
+                      invalidItems[index]?.majorExpenses?.[meIndex]?.label ||
+                      false
+                    }
+                  />
+
+                  <Input
+                    amount
+                    label="Amount"
+                    keyboardType="numeric"
+                    value={me.amount}
+                    onUpdateValue={(val) =>
+                      onChangeMajor(index, meIndex, "amount", val)
+                    }
+                    style={styles.majorAmount}
+                    isInvalid={
+                      invalidItems[index]?.majorExpenses?.[meIndex]?.amount ||
+                      false
+                    }
+                  />
+
+                  <RemoveButton
+                    onPress={() => onRemoveMajor(index, meIndex)}
+                  />
+                </View>
+              ))}
+
+              {/* Add Major Expense Button */}
+              <AddButton
+                onPress={() => onAddMajor(index)}
+                label="Add Major Expense"
               />
-              <Input
-                amount
-                label="Amount"
-                keyboardType="numeric"
-                value={item.amount}
-                onUpdateValue={(val) => onChange(index, "amount", val)}
-                style={styles.amount}
-                isInvalid={invalidItems[index]?.amount || false}
-              />
-              <RemoveButton onPress={() => onRemove(index)} />
             </View>
           ))}
 
+          {/* Add Expense */}
           <AddButton onPress={onAdd} label="Add Expense" />
         </View>
       </Collapsible>
@@ -58,16 +113,47 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 8,
   },
+
+  expenseBlock: {
+    marginBottom: 20,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderColor: Colors.gray300,
+  },
+
   itemRow: {
     flexDirection: "row",
     alignItems: "flex-end",
     marginBottom: 12,
     gap: 12,
   },
-  description: {
+
+  paymentMethod: {
     flex: 6,
   },
+
   amount: {
+    flex: 4,
+  },
+
+  majorTitle: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginBottom: 6,
+  },
+
+  majorRow: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    marginBottom: 10,
+    gap: 12,
+  },
+
+  majorLabel: {
+    flex: 6,
+  },
+
+  majorAmount: {
     flex: 4,
   },
 });

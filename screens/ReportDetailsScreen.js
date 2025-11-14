@@ -12,9 +12,11 @@ const ReportDetailsScreen = ({ route }) => {
       <View style={styles.header}>
         <Title>{report.title}</Title>
         <Text style={styles.subtitle}>Month: {report.month}</Text>
-        <Text style={styles.subtitle}>Date: {new Date(report.date).toLocaleDateString()}</Text>
+        <Text style={styles.subtitle}>
+          Date: {new Date(report.date).toLocaleDateString()}
+        </Text>
       </View>
-      <ExpensesSection expenses={report.expenses} majorExpenses={report.majorExpenses} />
+      <ExpensesSection expenses={report.expenses} />
       <IncomesSection incomes={report.incomes} />
       <AccountsSection accounts={report.accounts} />
     </View>

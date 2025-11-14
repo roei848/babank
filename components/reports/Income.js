@@ -1,15 +1,15 @@
 import { View, Text, StyleSheet } from "react-native";
 
-const Outcome = ({ outcome }) => {
+const Income = ({ income }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.description}>{outcome.description}</Text>
-      <Text style={styles.amount}>{outcome.amount} ₪</Text>
+      <Text style={styles.description}>{income.description}</Text>
+      <Text style={styles.amount}>{income.amount} ₪</Text>
     </View>
   );
 };
 
-export default Outcome;
+export default Income;
 
 const styles = StyleSheet.create({
   container: {

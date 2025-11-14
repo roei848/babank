@@ -1,3 +1,14 @@
+// Global JS Error Handler
+if (global.ErrorUtils) {
+  const defaultHandler = global.ErrorUtils.getGlobalHandler();
+
+  global.ErrorUtils.setGlobalHandler((error, isFatal) => {
+    console.log("GLOBAL JS ERROR CAUGHT:", error);
+    alert("JS ERROR: " + error.message);
+    defaultHandler(error, isFatal);
+  });
+}
+
 import { useContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
@@ -5,6 +16,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import ReportsProvider from "./store/report-context";
 import AuthContextProvider from "./store/auth-context";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { AuthContext } from "./store/auth-context";
 
 import LoginScreen from "./screens/LoginScreen";
@@ -61,11 +73,13 @@ function Navigation() {
 
 export default function App() {
   return (
-    <>
-      <StatusBar style="auto" />
-      <AuthContextProvider>
-        <Navigation />
-      </AuthContextProvider>
-    </>
+    <ErrorBoundary>
+      <>
+        <StatusBar style="auto" />
+        <AuthContextProvider>
+          <Navigation />
+        </AuthContextProvider>
+      </>
+    </ErrorBoundary>
   );
 }

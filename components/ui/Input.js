@@ -11,6 +11,8 @@ function Input({
   style,
   amount = false,
 }) {
+  const sanitizedValue = value === null || value === undefined ? "" : String(value);
+
   return (
     <View style={[styles.inputContainer, style]}>
       <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
@@ -23,7 +25,7 @@ function Input({
           keyboardType={keyboardType}
           secureTextEntry={secure}
           onChangeText={onUpdateValue}
-          value={value}
+          value={sanitizedValue}
         />
         {amount && <Text style={styles.currencySymbol}>₪</Text>}
       </View>

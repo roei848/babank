@@ -1,33 +1,20 @@
 import React, { useState, useEffect } from "react";
 import {
-  ScrollView,
-  TouchableOpacity,
   Text,
+  ScrollView,
   StyleSheet,
-  LayoutAnimation,
-  Platform,
-  UIManager,
+  TouchableOpacity,
   InteractionManager,
 } from "react-native";
 import { Colors } from "../constants/style";
 
-import GeneralInfoSection from "../components/addReportForm/GeneralInfoSection";
+import Report, { LocationEnum } from "../models/Report";
 import IncomesSection from "../components/addReportForm/IncomesSection";
 import ExpensesSection from "../components/addReportForm/ExpensesSection";
-import MajorExpensesSection from "../components/addReportForm/MajorExpensesSection";
 import AccountsSection from "../components/addReportForm/AccountsSection";
-import { validateForm } from "../utils/Validation";
+import GeneralInfoSection from "../components/addReportForm/GeneralInfoSection";
+import { validateForm } from "../utils/validation";
 import { useReports } from "../store/report-context";
-
-import Report, { LocationEnum } from "../models/Report";
-
-// Enable layout animation on Android
-if (
-  Platform.OS === "android" &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 export default function AddReportScreen({ navigation }) {
   const { addReport } = useReports();
@@ -37,14 +24,12 @@ export default function AddReportScreen({ navigation }) {
   const [month, setMonth] = useState("");
   const [incomes, setIncomes] = useState([]);
   const [expenses, setExpenses] = useState([]);
-  const [majorExpenses, setMajorExpenses] = useState([]);
   const [accounts, setAccounts] = useState([]);
   const [invalidFields, setInvalidFields] = useState({
     title: false,
     month: false,
     incomes: [],
     expenses: [],
-    majorExpenses: [],
     accounts: [],
   });
 
@@ -52,13 +37,11 @@ export default function AddReportScreen({ navigation }) {
     general: false,
     incomes: false,
     expenses: false,
-    majorExpenses: false,
     accounts: false,
   });
   const [isSaving, setIsSaving] = useState(false);
 
   const toggle = (key) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
@@ -84,24 +67,70 @@ export default function AddReportScreen({ navigation }) {
   const handleAddIncome = () =>
     setIncomes([...incomes, { amount: "", description: "" }]);
   const handleAddExpense = () =>
-    setExpenses([...expenses, { amount: "", description: "" }]);
-  const handleAddMajorExpense = () =>
-    setMajorExpenses([...majorExpenses, { amount: "", description: "" }]);
+    setExpenses([
+      ...expenses,
+      { id: Date.now().toString(), name: "", total: "", majorExpenses: [] },
+    ]);
+
   const handleAddAccount = () =>
     setAccounts([
       ...accounts,
       { balance: "", name: "", location: LocationEnum.OTZAR_HAYAL },
     ]);
 
+  const handleAddMajor = (expenseIndex) => {
+    const updated = [...expenses];
+
+    updated[expenseIndex] = {
+      ...updated[expenseIndex],
+      majorExpenses: [
+        ...(updated[expenseIndex].majorExpenses || []),
+        { id: Date.now().toString(), label: "", amount: "" },
+      ],
+    };
+
+    setExpenses(updated);
+  };
+
+  const handleChangeMajor = (expenseIndex, majorIndex, key, value) => {
+    const updated = [...expenses];
+
+    const majorExpensesCopy = [...updated[expenseIndex].majorExpenses];
+    const updatedMajor = { ...majorExpensesCopy[majorIndex], [key]: value };
+    majorExpensesCopy[majorIndex] = updatedMajor;
+
+    updated[expenseIndex] = {
+      ...updated[expenseIndex],
+      majorExpenses: majorExpensesCopy,
+    };
+
+    setExpenses(updated);
+  };
+
+  const handleRemoveMajor = (expenseIndex, majorIndex) => {
+    const updated = [...expenses];
+
+    const majorExpensesCopy = updated[expenseIndex].majorExpenses.filter(
+      (_, i) => i !== majorIndex
+    );
+
+    updated[expenseIndex] = {
+      ...updated[expenseIndex],
+      majorExpenses: majorExpensesCopy,
+    };
+
+    setExpenses(updated);
+  };
+
   // ────────── Save Handler ──────────
   const handleSave = async () => {
     setIsSaving(true);
-    const { errors, newInvalid } =  validateForm(
+    console.log("Saving report...");
+    const { errors, newInvalid } = validateForm(
       title,
       month,
       incomes,
       expenses,
-      majorExpenses,
       accounts
     );
 
@@ -111,6 +140,7 @@ export default function AddReportScreen({ navigation }) {
 
     if (errors.length > 0) {
       alert(`Please fix the following issues:\n\n${errors.join("\n")}`);
+      setIsSaving(false);
       return;
     }
 
@@ -122,7 +152,6 @@ export default function AddReportScreen({ navigation }) {
         month,
         incomes,
         expenses,
-        majorExpenses,
         accounts
       );
       await addReport(report);
@@ -170,21 +199,10 @@ export default function AddReportScreen({ navigation }) {
           updateListItem(expenses, setExpenses, index, key, value)
         }
         onRemove={(index) => removeListItem(expenses, setExpenses, index)}
+        onChangeMajor={handleChangeMajor}
+        onAddMajor={handleAddMajor}
+        onRemoveMajor={handleRemoveMajor}
         invalidItems={invalidFields.expenses}
-      />
-
-      <MajorExpensesSection
-        expanded={expanded.majorExpenses}
-        onToggle={() => toggle("majorExpenses")}
-        majorExpenses={majorExpenses}
-        onAdd={handleAddMajorExpense}
-        onChange={(index, key, value) =>
-          updateListItem(majorExpenses, setMajorExpenses, index, key, value)
-        }
-        onRemove={(index) =>
-          removeListItem(majorExpenses, setMajorExpenses, index)
-        }
-        invalidItems={invalidFields.majorExpenses}
       />
 
       <AccountsSection
@@ -199,8 +217,14 @@ export default function AddReportScreen({ navigation }) {
         invalidItems={invalidFields.accounts}
       />
 
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave} disabled={isSaving}>
-        <Text style={styles.saveButtonText}>{isSaving ? "Saving..." : "Save Report"}</Text>
+      <TouchableOpacity
+        style={styles.saveButton}
+        onPress={handleSave}
+        disabled={isSaving}
+      >
+        <Text style={styles.saveButtonText}>
+          {isSaving ? "Saving..." : "Save Report"}
+        </Text>
       </TouchableOpacity>
     </ScrollView>
   );

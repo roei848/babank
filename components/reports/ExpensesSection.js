@@ -1,20 +1,16 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import Outcome from "./Outcome";
+import Expense from "./Expense";
 
-const ExpensesSection = ({ expenses, majorExpenses }) => {
+const ExpensesSection = ({ expenses }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Expenses</Text>
       <FlatList
         data={expenses}
-        keyExtractor={(item) => item.description}
-        renderItem={({ item }) => <Outcome outcome={item} />}
-      />
-      <Text style={styles.majorExpensesTitle}>* Major Expenses</Text>
-      <FlatList
-        data={majorExpenses}
-        keyExtractor={(item) => item.description}
-        renderItem={({ item }) => <Outcome outcome={item} />}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <Expense expense={item} />
+        )}
       />
     </View>
   );

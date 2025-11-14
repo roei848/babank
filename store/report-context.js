@@ -53,6 +53,7 @@ const ReportsProvider = ({ children }) => {
       await saveReport(report);
     } catch (error) {
       console.error("Error adding report:", error);
+      throw error;
     }
   };
 
