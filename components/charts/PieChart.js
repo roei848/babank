@@ -2,7 +2,9 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import Svg, { G, Path } from "react-native-svg";
+
 import { ChartColors, Colors } from "../../constants/style";
+import { formatNumberWithCommas } from "../../utils/helper";
 
 const PieChart = ({ data, total, title }) => {
   const size = 250;
@@ -88,7 +90,7 @@ const PieChart = ({ data, total, title }) => {
       {/* Center labels */}
       <View style={styles.centerContent}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.amount}>₪{Number(total).toFixed(2)}</Text>
+        <Text style={styles.amount}>₪{formatNumberWithCommas(total)}</Text>
       </View>
 
       {/* Sorted Legend */}
