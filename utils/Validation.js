@@ -1,10 +1,4 @@
-export const validateForm = (
-  title,
-  month,
-  incomes,
-  expenses,
-  accounts
-) => {
+export const validateForm = (title, month, incomes, expenses, accounts) => {
   const errors = [];
   const newInvalid = {
     title: false,
@@ -43,43 +37,47 @@ export const validateForm = (
     newInvalid.incomes[i] = invalid;
   });
 
-// ---- Expenses ----
-expenses.forEach((exp, i) => {
-  const invalid = { name: false, total: false, majorExpenses: [] };
+  // ---- Expenses ----
+  expenses.forEach((exp, i) => {
+    const invalid = { name: false, total: false, majorExpenses: [] };
 
-  if (!exp.name.trim()) {
-    errors.push(`• Expense #${i + 1} is missing a payment method name.`);
-    invalid.name = true;
-  }
-
-  if (!exp.total || isNaN(exp.total) || Number(exp.total) <= 0) {
-    errors.push(`• Expense #${i + 1} has an invalid total amount.`);
-    invalid.total = true;
-  }
-
-  // Validate major expenses inside this expense
-  exp.majorExpenses.forEach((major, j) => {
-    const invalidMajor = { label: false, amount: false };
-
-    if (!major.label.trim()) {
-      errors.push(
-        `• Major Expense #${j + 1} inside Expense #${i + 1} is missing a label.`
-      );
-      invalidMajor.label = true;
+    if (!exp.name.trim()) {
+      errors.push(`• Expense #${i + 1} is missing a payment method name.`);
+      invalid.name = true;
     }
 
-    if (!major.amount || isNaN(major.amount) || Number(major.amount) <= 0) {
-      errors.push(
-        `• Major Expense #${j + 1} inside Expense #${i + 1} has an invalid amount.`
-      );
-      invalidMajor.amount = true;
+    if (!exp.total || isNaN(exp.total) || Number(exp.total) <= 0) {
+      errors.push(`• Expense #${i + 1} has an invalid total amount.`);
+      invalid.total = true;
     }
 
-    invalid.majorExpenses[j] = invalidMajor;
+    // Validate major expenses inside this expense
+    exp.majorExpenses.forEach((major, j) => {
+      const invalidMajor = { label: false, amount: false };
+
+      if (!major?.label?.trim()) {
+        errors.push(
+          `• Major Expense #${j + 1} inside Expense #${
+            i + 1
+          } is missing a label.`
+        );
+        invalidMajor.label = true;
+      }
+
+      if (!major?.amount || isNaN(major.amount) || Number(major.amount) <= 0) {
+        errors.push(
+          `• Major Expense #${j + 1} inside Expense #${
+            i + 1
+          } has an invalid amount.`
+        );
+        invalidMajor.amount = true;
+      }
+
+      invalid.majorExpenses[j] = invalidMajor;
+    });
+
+    newInvalid.expenses[i] = invalid;
   });
-
-  newInvalid.expenses[i] = invalid;
-});
 
   // ---- Accounts ----
   accounts.forEach((acc, i) => {

@@ -11,20 +11,36 @@ function Input({
   style,
   amount = false,
 }) {
-  const sanitizedValue = value === null || value === undefined ? "" : String(value);
+  const sanitizedValue =
+    value === null || value === undefined ? "" : String(value);
 
   return (
     <View style={[styles.inputContainer, style]}>
       <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
         {label}
       </Text>
-      <View style={[styles.inputWrapper, isInvalid && styles.inputWrapperInvalid]}>
+      <View
+        style={[styles.inputWrapper, isInvalid && styles.inputWrapperInvalid]}
+      >
         <TextInput
           style={[styles.input, amount && styles.inputWithAmount]}
           autoCapitalize="none"
           keyboardType={keyboardType}
           secureTextEntry={secure}
-          onChangeText={onUpdateValue}
+          onChangeText={(text) => {
+            if (amount) {
+              // Only allow digits
+              const cleaned = text.replace(/[^0-9]/g, "");
+
+              if (cleaned === "") {
+                onUpdateValue("");
+              } else {
+                onUpdateValue(Number(cleaned));
+              }
+            } else {
+              onUpdateValue(text);
+            }
+          }}
           value={sanitizedValue}
         />
         {amount && <Text style={styles.currencySymbol}>₪</Text>}

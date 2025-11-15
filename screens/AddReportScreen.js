@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
   InteractionManager,
 } from "react-native";
-import { Colors } from "../constants/style";
 
 import Report, { LocationEnum } from "../models/Report";
 import IncomesSection from "../components/addReportForm/IncomesSection";
 import ExpensesSection from "../components/addReportForm/ExpensesSection";
 import AccountsSection from "../components/addReportForm/AccountsSection";
 import GeneralInfoSection from "../components/addReportForm/GeneralInfoSection";
+import { Colors } from "../constants/style";
 import { validateForm } from "../utils/validation";
 import { useReports } from "../store/report-context";
 

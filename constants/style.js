@@ -20,3 +20,21 @@ export const Colors = {
   error500: "#FF6B6B",
   success500: "#4CAF50",
 };
+
+
+export const ChartColors = [
+  "#FFB46F", // Orange
+  "#A7B6FF", // Light Blue
+  "#92D4C2", // Mint
+  "#FF6F91", // Pink
+  "#6A4C93", // Purple
+  "#FF0000", // Red
+  "#00FF00", // Green
+  "#0000FF", // Blue
+  "#FFFF00", // Yellow
+  "#FF00FF", // Magenta
+  "#00FFFF", // Cyan
+  "#800000", // Maroon
+  "#008000", // Green
+  "#000080", // Navy
+];
