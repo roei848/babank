@@ -9,6 +9,7 @@ const AccountsSection = ({ accounts }) => {
         data={accounts}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => <AccountItem account={item} />}
+        scrollEnabled={false}
       />
     </View>
   );

@@ -9,6 +9,7 @@ const IncomesSection = ({ incomes }) => {
         data={incomes}
         keyExtractor={(item) => item.description}
         renderItem={({ item }) => <Income income={item} />}
+        scrollEnabled={false}
       />
     </View>
   );

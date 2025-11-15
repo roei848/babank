@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import Title from "../ui/Title";
 import PieChart from "../charts/PieChart";
@@ -9,7 +9,7 @@ import { formatFirestoreDate } from "../../utils/helper";
 
 const LastReport = ({ report }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <Title>{report.title}</Title>
         <Text style={styles.subtitle}>Month: {report.month}</Text>
@@ -28,7 +28,7 @@ const LastReport = ({ report }) => {
       <ExpensesSection expenses={report.expenses} />
       <IncomesSection incomes={report.incomes} />
       <AccountsSection accounts={report.accounts} />
-    </View>
+    </ScrollView>
   );
 };
 
@@ -38,7 +38,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    justifyContent: "flex-start",
+  },
+
+  content: {
     padding: 16,
     paddingTop: 48,
     gap: 16,

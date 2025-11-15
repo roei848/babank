@@ -11,6 +11,7 @@ const ExpensesSection = ({ expenses }) => {
         renderItem={({ item }) => (
           <Expense expense={item} />
         )}
+        scrollEnabled={false}
       />
     </View>
   );
