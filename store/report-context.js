@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { auth, db } from "../api/firebaseConfig";
-import { addReport as saveReport, getReportById } from "../api/reportService";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
+
+import Report from "../models/Report";
+import { auth, db } from "../api/firebaseConfig";
+import { addReport as saveReport } from "../api/reportService";
 
 // Create context
 const ReportsContext = createContext();
@@ -30,10 +32,9 @@ const ReportsProvider = ({ children }) => {
     const unsubscribe = onSnapshot(
       q,
       (snapshot) => {
-        const reportsData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
+        const reportsData = snapshot.docs.map((doc) =>
+          Report.fromFirestore({ id: doc.id, ...doc.data() })
+        );        
         setReports(reportsData);
         setLoading(false);
       },
@@ -57,20 +58,10 @@ const ReportsProvider = ({ children }) => {
     }
   };
 
-  const refreshReport = async (reportId) => {
-    try {
-      const updated = await getReportById(reportId);
-      setReports((prev) => prev.map((r) => (r.id === reportId ? updated : r)));
-    } catch (error) {
-      console.error("Error refreshing report:", error);
-    }
-  };
-
   const value = {
     reports,
     loading,
     addReport,
-    refreshReport,
   };
 
   return (

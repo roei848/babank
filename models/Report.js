@@ -77,7 +77,6 @@ class Report {
     this.date = date;
     this.title = title;
     this.month = month;
-
     this.incomes = incomes;
     this.expenses = expenses;
     this.accounts = accounts;
@@ -116,8 +115,45 @@ class Report {
     return this.expenses.reduce((sum, c) => sum + c.total, 0);
   }
 
+  get totalAccounts() {
+    return this.accounts.reduce((sum, a) => sum + a.balance, 0);
+  }
+
   get netResult() {
     return this.totalIncome - this.totalExpenses;
+  }
+
+  static fromFirestore(data) {
+    const incomes = Array.isArray(data.incomes)
+      ? data.incomes.map((i) => new Income(i.description, i.amount))
+      : [];
+
+    const expenses = Array.isArray(data.expenses)
+      ? data.expenses.map((e) => {
+          const majorExpenses = Array.isArray(e.majorExpenses)
+            ? e.majorExpenses.map((m) => new MajorExpense(m.label, m.amount))
+            : [];
+          return new Expense(e.name, e.total, majorExpenses);
+        })
+      : [];
+
+    const accounts = Array.isArray(data.accounts)
+      ? data.accounts.map((a) => new Account(a.balance, a.name, a.location))
+      : [];
+
+      const report = new Report(
+        data.date,
+        data.title,
+        data.month,
+        incomes,
+        expenses,
+        accounts
+      );
+    
+      // Attach Firestore document ID
+      report.id = data.id || null;
+    
+      return report;
   }
 
   summary() {
@@ -126,6 +162,7 @@ class Report {
       month: this.month,
       totalIncome: this.totalIncome,
       totalExpenses: this.totalExpenses,
+      totalAccounts: this.totalAccounts,
       netResult: this.netResult,
       accounts: this.accounts.map((a) => ({
         name: a.name,

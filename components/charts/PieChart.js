@@ -6,13 +6,30 @@ import Svg, { G, Path } from "react-native-svg";
 import { ChartColors, Colors } from "../../constants/style";
 import { formatNumberWithCommas } from "../../utils/helper";
 
-const PieChart = ({ data, total, title }) => {
+const PieChart = ({ data, total, title, growth }) => {
   const size = 250;
   const strokeWidth = 18;
   const radius = (size - strokeWidth) / 2;
   const center = size / 2;
 
   const GAP = 12;
+
+  // Format growth value for display
+  let growthText = "";
+  let growthColor = Colors.border;
+
+  if (typeof growth === "number") {
+    if (growth > 0) {
+      growthText = `▲ ₪${formatNumberWithCommas(growth)}`;
+      growthColor = Colors.success500;
+    } else if (growth < 0) {
+      growthText = `▼ ₪${formatNumberWithCommas(growth)}`;
+      growthColor = Colors.error500;
+    } else {
+      growthText = "0";
+      growthColor = "#999";
+    }
+  }
 
   // ---- Sanitize & sort largest → smallest ----
   const cleanData = data
@@ -81,6 +98,8 @@ const PieChart = ({ data, total, title }) => {
     return createArc(start, end, item.color, index);
   });
 
+  console.log(growthText);
+
   return (
     <View style={styles.container}>
       <Svg width={size} height={size}>
@@ -91,6 +110,11 @@ const PieChart = ({ data, total, title }) => {
       <View style={styles.centerContent}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.amount}>₪{formatNumberWithCommas(total)}</Text>
+        {growth !== null && growthText !== "" && (
+          <Text style={[styles.growth, { color: growthColor }]}>
+            {growthText}
+          </Text>
+        )}
       </View>
 
       {/* Sorted Legend */}
@@ -137,9 +161,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 4,
   },
+  growth: {
+    marginTop: 4,
+    fontSize: 16,
+    fontWeight: "600",
+  },
   legendContainer: {
     flexDirection: "row",
-    marginTop: 20,
+    marginTop: 32,
     gap: 8,
     justifyContent: "flex-start",
   },

@@ -1,5 +1,6 @@
 // reportService.js
-import { collection, doc, addDoc, getDocs, getDoc, Timestamp, query, orderBy, limit } from "firebase/firestore";
+// import { collection, doc, addDoc, getDocs, getDoc, Timestamp, query, orderBy, limit } from "firebase/firestore";
+import { collection, addDoc, Timestamp } from "firebase/firestore";
 import Report from "../models/Report";
 import { db, auth } from "./firebaseConfig";
 
@@ -23,88 +24,60 @@ export async function addReport(report) {
   });
 }
 
-/**
- * Fetch all reports for the current user
- * @returns {Promise<Report[]>}
- */
-export async function getUserReports() {
-  const user = auth.currentUser;
+// /**
+//  * Fetch all reports for the current user
+//  * @returns {Promise<Report[]>}
+//  */
+// export async function getUserReports() {
+//   const user = auth.currentUser;
 
-  if (!user) throw new Error("User not authenticated");
+//   if (!user) throw new Error("User not authenticated");
 
-  const reportsRef = collection(db, "users", user.uid, "reports");
-  const snapshot = await getDocs(reportsRef);
+//   const reportsRef = collection(db, "users", user.uid, "reports");
+//   const snapshot = await getDocs(reportsRef);
 
-  const reports = snapshot.docs.map((docSnap) => {
-    const data = docSnap.data();
+//   const reports = snapshot.docs.map((docSnap) => {
+//     const data = docSnap.data();
 
-    // reconstruct a Report instance
-    return new Report(
-      data.date,
-      data.title,
-      data.month,
-      data.incomes,
-      data.expenses,
-      data.accounts
-    );
-  });
+//     // reconstruct a Report instance
+//     return new Report(
+//       data.date,
+//       data.title,
+//       data.month,
+//       data.incomes,
+//       data.expenses,
+//       data.accounts
+//     );
+//   });
 
-  return reports;
-}
+//   return reports;
+// }
 
-/**
- * Fetch a specific report by ID for the current user
- * @param {string} reportId
- * @returns {Promise<Report>}
- */
-export async function getReportById(reportId) {
-  const user = auth.currentUser;
+// /**
+//  * Fetch a specific report by ID for the current user
+//  * @param {string} reportId
+//  * @returns {Promise<Report>}
+//  */
+// export async function getReportById(reportId) {
+//   const user = auth.currentUser;
 
-  if (!user) throw new Error("User not authenticated");
+//   if (!user) throw new Error("User not authenticated");
 
-  const reportRef = doc(db, "users", user.uid, "reports", reportId);
-  const snapshot = await getDoc(reportRef);
+//   const reportRef = doc(db, "users", user.uid, "reports", reportId);
+//   const snapshot = await getDoc(reportRef);
 
-  if (!snapshot.exists()) {
-    throw new Error("Report not found");
-  }
+//   if (!snapshot.exists()) {
+//     throw new Error("Report not found");
+//   }
 
-  const data = snapshot.data();
-  return new Report(
-    data.date,
-    data.title,
-    data.month,
-    data.incomes,
-    data.expenses,
-    data.accounts
-  );
-}
+//   const data = snapshot.data();
+//   return new Report(
+//     data.date,
+//     data.title,
+//     data.month,
+//     data.incomes,
+//     data.expenses,
+//     data.accounts
+//   );
+// }
 
-/**
- * Fetch the last report (by date) for the current user
- * @returns {Promise<Report>}
- */
-export async function getLastReportFromUser() {
-  const user = auth.currentUser;
-  if (!user) throw new Error("User not authenticated");
-
-  const reportsRef = collection(db, "users", user.uid, "reports");
-  // Order by the 'date' field descending and get the first one
-  const q = query(reportsRef, orderBy("createdAt", "desc"), limit(1));
-  const snapshot = await getDocs(q);
-  if (snapshot.empty) {
-    throw new Error("No reports found");
-  }
-
-  const docSnap = snapshot.docs[0];
-  const data = docSnap.data();
-
-  return new Report(
-    data.date,
-    data.title,
-    data.month,
-    data.incomes,
-    data.expenses,
-    data.accounts
-  );
-}

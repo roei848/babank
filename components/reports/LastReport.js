@@ -1,13 +1,19 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import Title from "../ui/Title";
 import PieChart from "../charts/PieChart";
-import IncomesSection from "./IncomesSection";
-import ExpensesSection from "./ExpensesSection";
-import AccountsSection from "./AccountsSection";
+import FlatButton from "../ui/FlatButton";
+import IncomeExpensesCard from "./IncomeExpensesCard";
 import { formatFirestoreDate } from "../../utils/helper";
 
-const LastReport = ({ report }) => {
+const LastReport = ({ report, accountsGrowth }) => {
+  const navigation = useNavigation();
+
+  const handleToFullReportLink = () => {
+    navigation.navigate("ReportDetails", { report: report });
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
@@ -19,15 +25,23 @@ const LastReport = ({ report }) => {
       </View>
       <PieChart
         title="Total amount"
-        total={report.accounts.reduce((s, a) => s + a.balance, 0)}
+        total={report.totalAccounts}
+        growth={accountsGrowth}
         data={report.accounts.map((acc) => ({
           label: acc.name,
           value: acc.balance,
         }))}
       />
-      <ExpensesSection expenses={report.expenses} />
-      <IncomesSection incomes={report.incomes} />
-      <AccountsSection accounts={report.accounts} />
+      <IncomeExpensesCard
+        incomesTotal={report.totalIncome}
+        expensesTotal={report.totalExpenses}
+      />
+      <FlatButton
+        textStyle={styles.linkButton}
+        onPress={handleToFullReportLink}
+      >
+        To Full Report
+      </FlatButton>
     </ScrollView>
   );
 };
@@ -50,6 +64,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginBottom: 16,
-    textAlign: "start",
+    textAlign: "center",
+  },
+  linkButton: {
+    textDecorationLine: "underline",
   },
 });
