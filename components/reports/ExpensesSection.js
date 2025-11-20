@@ -7,7 +7,7 @@ const ExpensesSection = ({ expenses }) => {
       <Text style={styles.title}>Expenses</Text>
       <FlatList
         data={expenses}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => (
           <Expense expense={item} />
         )}

@@ -7,34 +7,35 @@ import FlatButton from "../ui/FlatButton";
 import IncomeExpensesCard from "./IncomeExpensesCard";
 import { formatFirestoreDate } from "../../utils/helper";
 
-const LastReport = ({ report, accountsGrowth }) => {
+const LastReport = ({ currReport, prevReport }) => {
   const navigation = useNavigation();
+  const accountsGrowth = currReport && prevReport ? currReport.totalAccounts - prevReport.totalAccounts : 0;
 
   const handleToFullReportLink = () => {
-    navigation.navigate("ReportDetails", { report: report });
+    navigation.navigate("ReportDetails", { currReport: currReport, prevReport: prevReport });
   };
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
-        <Title>{report.title}</Title>
-        <Text style={styles.subtitle}>Month: {report.month}</Text>
+        <Title>{currReport.title}</Title>
+        <Text style={styles.subtitle}>Month: {currReport.month}</Text>
         <Text style={styles.subtitle}>
-          Date: {formatFirestoreDate(report.date)}
+          Date: {formatFirestoreDate(currReport.date)}
         </Text>
       </View>
       <PieChart
         title="Total amount"
-        total={report.totalAccounts}
+        total={currReport.totalAccounts}
         growth={accountsGrowth}
-        data={report.accounts.map((acc) => ({
+        data={currReport.accounts.map((acc) => ({
           label: acc.name,
           value: acc.balance,
         }))}
       />
       <IncomeExpensesCard
-        incomesTotal={report.totalIncome}
-        expensesTotal={report.totalExpenses}
+        incomesTotal={currReport.totalIncome}
+        expensesTotal={currReport.totalExpenses}
       />
       <FlatButton
         textStyle={styles.linkButton}

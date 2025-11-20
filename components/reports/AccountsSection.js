@@ -1,14 +1,16 @@
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import AccountItem from "./AccountItem";
 
-const AccountsSection = ({ accounts }) => {
+const AccountsSection = ({ currAccounts, prevAccounts }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Accounts</Text>
       <FlatList
-        data={accounts}
-        keyExtractor={(item) => item.name}
-        renderItem={({ item }) => <AccountItem account={item} />}
+        data={currAccounts}
+        keyExtractor={(_, index) => index.toString()}
+        renderItem={({ item }) => (
+          <AccountItem account={item} prevAccount={prevAccounts.find((acc) => acc.name === item.name)} />
+        )}
         scrollEnabled={false}
       />
     </View>

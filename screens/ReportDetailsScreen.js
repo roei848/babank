@@ -1,24 +1,43 @@
+import { useLayoutEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Title from "../components/ui/Title";
 import ExpensesSection from "../components/reports/ExpensesSection";
 import IncomesSection from "../components/reports/IncomesSection";
 import AccountsSection from "../components/reports/AccountsSection";
+import { formatFirestoreDate } from "../utils/helper";
+import PieChart from "../components/charts/PieChart";
 
-const ReportDetailsScreen = ({ route }) => {
-  const { report } = route.params;
+const ReportDetailsScreen = ({ route, navigation }) => {
+  const { currReport, prevReport } = route.params;
+  const accountsGrowth = currReport && prevReport ? currReport.totalAccounts - prevReport.totalAccounts : 0;
+
+  console.log("currReport", currReport);
+  console.log("prevReport", prevReport);
+
+  useLayoutEffect(() => {
+    if (currReport?.title) {
+      navigation.setOptions({
+        title: currReport.title, 
+      });
+    }
+  }, [navigation, currReport]);
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Title>{report.title}</Title>
-        <Text style={styles.subtitle}>Month: {report.month}</Text>
+        <Text style={styles.subtitle}>Month: {currReport.month}</Text>
         <Text style={styles.subtitle}>
-          Date: {new Date(report.date).toLocaleDateString()}
+          Date: {formatFirestoreDate(currReport.date)}
         </Text>
       </View>
-      <ExpensesSection expenses={report.expenses} />
-      <IncomesSection incomes={report.incomes} />
-      <AccountsSection accounts={report.accounts} />
+      <PieChart
+        title="Total Accounts"
+        total={currReport.totalAccounts}
+        growth={accountsGrowth}
+        data={currReport.accounts.map((acc) => ({ label: acc.name, value: acc.balance }))}
+      />
+      <AccountsSection currAccounts={currReport.accounts} prevAccounts={prevReport.accounts} />
+      <ExpensesSection expenses={currReport.expenses} />
+      <IncomesSection incomes={currReport.incomes} />
     </View>
   );
 };

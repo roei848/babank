@@ -125,7 +125,6 @@ export default function AddReportScreen({ navigation }) {
   // ────────── Save Handler ──────────
   const handleSave = async () => {
     setIsSaving(true);
-    console.log("Saving report...");
     const { errors, newInvalid } = validateForm(
       title,
       month,
@@ -133,8 +132,6 @@ export default function AddReportScreen({ navigation }) {
       expenses,
       accounts
     );
-
-    console.log(errors, newInvalid);
 
     setInvalidFields(newInvalid);
 

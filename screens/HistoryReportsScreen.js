@@ -34,8 +34,13 @@ const HistoryReportsScreen = () => {
       <FlatList
         data={reports}
         keyExtractor={(item, index) => item.id || index.toString()}
-        renderItem={({ item }) => <ReportCard report={item} />}
-        contentContainerStyle={{ padding: 16 }} 
+        renderItem={({ item, index }) => (
+          <ReportCard
+            currReport={item}
+            prevReport={reports[index + 1] || null}
+          />
+        )}
+        contentContainerStyle={{ padding: 16 }}
       />
     </View>
   );

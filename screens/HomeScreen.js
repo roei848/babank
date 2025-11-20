@@ -11,8 +11,6 @@ const HomeScreen = () => {
   const current = reports && reports.length > 0 ? reports[0] : null;
   const previous = reports && reports.length > 1 ? reports[1] : null;
 
-  const accountsGrowth = current && previous ? current.totalAccounts - previous.totalAccounts : 0;
-
   if (loading) {
     return <LoadingOverlay message="Loading last report..." />;
   }
@@ -20,7 +18,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       {current ? (
-        <LastReport report={current} accountsGrowth={accountsGrowth} />
+        <LastReport currReport={current} prevReport={previous} />
       ) : (
         <Text style={styles.noReportText}>No reports found yet</Text>
       )}

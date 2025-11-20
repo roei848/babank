@@ -2,11 +2,11 @@ import React from "react";
 import { Text, StyleSheet, Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const ReportCard = ({ report }) => {
+const ReportCard = ({ currReport, prevReport }) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate("ReportDetails", { report: report });
+    navigation.navigate("ReportDetails", { currReport: currReport, prevReport: prevReport });
   };
 
   return (
@@ -14,14 +14,14 @@ const ReportCard = ({ report }) => {
       style={({ pressed }) => [styles.reportCard, pressed && styles.pressed]}
       onPress={handlePress}
     >
-      <Text style={styles.title}>{report.title}</Text>
+      <Text style={styles.title}>{currReport.title}</Text>
       <Text style={styles.subtitle}>
-        Month: {report.month} | Date:{" "}
-        {new Date(report.date).toLocaleDateString()}
+        Month: {currReport.month} | Date:{" "}
+        {new Date(currReport.date).toLocaleDateString()}
       </Text>
       <Text style={styles.net}>
         Net Result:{" "}
-        {report.netResult ?? report.totalIncome - report.totalExpenses} ₪
+        {currReport.netResult ?? currReport.totalIncome - currReport.totalExpenses} ₪
       </Text>
     </Pressable>
   );

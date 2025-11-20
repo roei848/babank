@@ -60,7 +60,7 @@ function AuthContent({ isLogin, onAuthenticate }) {
         credentialsInvalid={credentialsInvalid}
       />
       <View style={styles.buttons}>
-        <FlatButton onPress={switchAuthModeHandler}>
+        <FlatButton onPress={switchAuthModeHandler} textStyle={styles.switchButton}>
           {isLogin ? 'Create a new user' : 'Log in instead'}
         </FlatButton>
       </View>
@@ -85,5 +85,11 @@ const styles = StyleSheet.create({
   },
   buttons: {
     marginTop: 8,
+  },
+  switchButton: {
+    color: Colors.primary100,
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });

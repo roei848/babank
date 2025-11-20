@@ -98,8 +98,6 @@ const PieChart = ({ data, total, title, growth }) => {
     return createArc(start, end, item.color, index);
   });
 
-  console.log(growthText);
-
   return (
     <View style={styles.container}>
       <Svg width={size} height={size}>
