@@ -69,5 +69,6 @@ const styles = StyleSheet.create({
   },
   linkButton: {
     textDecorationLine: "underline",
+    textAlign: "flex-start",
   },
 });
