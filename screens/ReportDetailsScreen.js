@@ -1,17 +1,14 @@
 import { useLayoutEffect } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import ExpensesSection from "../components/reports/ExpensesSection";
+
 import IncomesSection from "../components/reports/IncomesSection";
+import ExpensesSection from "../components/reports/ExpensesSection";
 import AccountsSection from "../components/reports/AccountsSection";
 import { formatFirestoreDate } from "../utils/helper";
-import PieChart from "../components/charts/PieChart";
 
 const ReportDetailsScreen = ({ route, navigation }) => {
   const { currReport, prevReport } = route.params;
-  const accountsGrowth = currReport && prevReport ? currReport.totalAccounts - prevReport.totalAccounts : 0;
-
-  console.log("currReport", currReport);
-  console.log("prevReport", prevReport);
+  const accountsGrowth = currReport && prevReport ? currReport.totalAccounts - prevReport.totalAccounts : currReport.totalAccounts;
 
   useLayoutEffect(() => {
     if (currReport?.title) {
@@ -33,13 +30,7 @@ const ReportDetailsScreen = ({ route, navigation }) => {
           {formatFirestoreDate(currReport.date)}
         </Text>
       </View>
-      <PieChart
-        title="Total Accounts"
-        total={currReport.totalAccounts}
-        growth={accountsGrowth}
-        data={currReport.accounts.map((acc) => ({ label: acc.name, value: acc.balance }))}
-      />
-      <AccountsSection currAccounts={currReport.accounts} prevAccounts={prevReport?.accounts || null} />
+      <AccountsSection currAccounts={currReport.accounts} prevAccounts={prevReport?.accounts || null} totalAccounts={currReport.totalAccounts} accountsGrowth={accountsGrowth} />
       <IncomesSection incomes={currReport.incomes} />
       <ExpensesSection expenses={currReport.expenses} />
     </ScrollView>

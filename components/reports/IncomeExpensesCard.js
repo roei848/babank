@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { Ionicons } from "@expo/vector-icons";
 
 import { Colors } from "../../constants/style";
 import { formatNumberWithCommas } from "../../utils/helper";

@@ -18,8 +18,8 @@ const Expense = ({ expense }) => {
         <View style={styles.majorContainer}>
           <Text style={styles.majorTitle}>הוצאות גדולות:</Text>
 
-          {majorExpenses.map((item) => (
-            <View key={item.id} style={styles.majorItemRow}>
+          {majorExpenses.map((item, index) => (
+            <View key={index} style={styles.majorItemRow}>
               <Text style={styles.bullet}>•</Text>
 
               <Text style={styles.majorItemText}>

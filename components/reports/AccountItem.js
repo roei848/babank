@@ -3,7 +3,7 @@ import { formatNumberWithCommas } from "../../utils/helper";
 import { Colors } from "../../constants/style";
 
 const AccountItem = ({ account, prevAccount }) => {
-  const growth = prevAccount ? account.balance - prevAccount.balance : 0;
+  const growth = prevAccount ? account.balance - prevAccount.balance : account.balance;
 
   const growthText =
     growth > 0
@@ -16,18 +16,14 @@ const AccountItem = ({ account, prevAccount }) => {
 
   return (
     <View style={styles.container}>
-      {/* RIGHT SIDE — name + location */}
       <View style={styles.infoSection}>
         <Text style={styles.name}>{account.name}</Text>
         <Text style={styles.location}>({account.location})</Text>
       </View>
-
-      {/* LEFT SIDE — balance + growth under it */}
       <View style={styles.balanceSection}>
         <Text style={styles.balance}>
           {formatNumberWithCommas(account.balance)} ₪
         </Text>
-
         <Text style={[styles.growth, { color: growthColor }]}>
           {growthText}
         </Text>
