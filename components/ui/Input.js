@@ -19,8 +19,12 @@ function Input({
       <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
         {label}
       </Text>
+
       <View
-        style={[styles.inputWrapper, isInvalid && styles.inputWrapperInvalid]}
+        style={[
+          styles.inputWrapper,
+          isInvalid && styles.inputWrapperInvalid
+        ]}
       >
         <TextInput
           style={[styles.input, amount && styles.inputWithAmount]}
@@ -29,20 +33,16 @@ function Input({
           secureTextEntry={secure}
           onChangeText={(text) => {
             if (amount) {
-              // Only allow digits
               const cleaned = text.replace(/[^0-9]/g, "");
-
-              if (cleaned === "") {
-                onUpdateValue("");
-              } else {
-                onUpdateValue(Number(cleaned));
-              }
+              onUpdateValue(cleaned === "" ? "" : Number(cleaned));
             } else {
               onUpdateValue(text);
             }
           }}
           value={sanitizedValue}
+          textAlign="left" // LEFT-ALIGNED FOR LOGIN + SIGNUP
         />
+
         {amount && <Text style={styles.currencySymbol}>₪</Text>}
       </View>
     </View>
@@ -54,41 +54,49 @@ export default Input;
 const styles = StyleSheet.create({
   inputContainer: {
     gap: 4,
+    marginBottom: 14,
   },
+
   label: {
-    color: Colors.primary500,
+    color: Colors.primary800,
+    fontSize: 15,
+    fontWeight: "600",
     marginBottom: 4,
-    fontWeight: "500",
   },
+
   labelInvalid: {
     color: Colors.error500,
   },
+
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     backgroundColor: Colors.primary100,
-    borderRadius: 4,
-    paddingHorizontal: 6,
-    height: 40,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    paddingHorizontal: 12,
+    height: 46,
   },
+
   inputWrapperInvalid: {
-    backgroundColor: Colors.error100, // highlight full box
+    borderColor: Colors.error500,
+    backgroundColor: Colors.error100,
   },
+
   input: {
     flex: 1,
-    paddingVertical: 0,
     fontSize: 16,
     color: Colors.primary800,
-    textAlignVertical: "center",
   },
+
   inputWithAmount: {
     paddingRight: 4,
   },
+
   currencySymbol: {
     fontSize: 16,
     color: Colors.primary800,
     marginLeft: 6,
-    lineHeight: 18,
   },
 });

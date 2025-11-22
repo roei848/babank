@@ -1,67 +1,62 @@
-import { useState } from 'react';
-import { Alert, StyleSheet, View } from 'react-native';
-
-import AuthForm from './AuthForm.js';
-import FlatButton from '../ui/FlatButton.js';
-import { Colors } from '../../constants/style.js';
-import { useNavigation } from '@react-navigation/native';
+import { useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import { Colors } from "../../constants/style";
+import FlatButton from "../ui/FlatButton";
+import AuthForm from "./AuthForm";
+import { useNavigation } from "@react-navigation/native";
 
 function AuthContent({ isLogin, onAuthenticate }) {
   const navigation = useNavigation();
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
-    password: false,
     confirmEmail: false,
+    password: false,
     confirmPassword: false,
   });
 
   function switchAuthModeHandler() {
-    if (isLogin) {
-      navigation.replace('Signup');
-    } else {
-      navigation.replace('Login');
-    }
+    navigation.replace(isLogin ? "Signup" : "Login");
   }
 
   function submitHandler(credentials) {
-    let { email, confirmEmail, password, confirmPassword } = credentials;
+    const { email, confirmEmail, password, confirmPassword } = credentials;
 
-    email = email.trim();
-    password = password.trim();
-
-    const emailIsValid = email.includes('@');
-    const passwordIsValid = password.length > 6;
-    const emailsAreEqual = email === confirmEmail;
-    const passwordsAreEqual = password === confirmPassword;
+    const emailValid = email.includes("@");
+    const passwordValid = password.length > 6;
+    const emailMatch = email === confirmEmail;
+    const passMatch = password === confirmPassword;
 
     if (
-      !emailIsValid ||
-      !passwordIsValid ||
-      (!isLogin && (!emailsAreEqual || !passwordsAreEqual))
+      !emailValid ||
+      !passwordValid ||
+      (!isLogin && (!emailMatch || !passMatch))
     ) {
-      Alert.alert('Invalid input', 'Please check your entered credentials.');
       setCredentialsInvalid({
-        email: !emailIsValid,
-        confirmEmail: !emailIsValid || !emailsAreEqual,
-        password: !passwordIsValid,
-        confirmPassword: !passwordIsValid || !passwordsAreEqual,
+        email: !emailValid,
+        confirmEmail: !emailValid || !emailMatch,
+        password: !passwordValid,
+        confirmPassword: !passwordValid || !passMatch,
       });
       return;
     }
-    onAuthenticate({ email, password });
+
+    onAuthenticate(credentials);
   }
 
   return (
-    <View style={styles.authContent}>
-      <AuthForm
-        isLogin={isLogin}
-        onSubmit={submitHandler}
-        credentialsInvalid={credentialsInvalid}
-      />
-      <View style={styles.buttons}>
+    <View style={styles.screenContainer}>
+      <View style={styles.card}>
+        <Text style={styles.title}>{isLogin ? "כניסה" : "יצירת חשבון"}</Text>
+
+        <AuthForm
+          isLogin={isLogin}
+          onSubmit={submitHandler}
+          credentialsInvalid={credentialsInvalid}
+        />
+
         <FlatButton onPress={switchAuthModeHandler} textStyle={styles.switchButton}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
+          {isLogin ? "עדיין אין לך חשבון? הירשם" : "כבר יש לך חשבון? התחבר"}
         </FlatButton>
       </View>
     </View>
@@ -71,25 +66,37 @@ function AuthContent({ isLogin, onAuthenticate }) {
 export default AuthContent;
 
 const styles = StyleSheet.create({
-  authContent: {
-    marginTop: 64,
-    marginHorizontal: 32,
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: Colors.primary800,
+  screenContainer: {
+    flex: 1,
+    justifyContent: "center",
+    paddingHorizontal: 24,
+  },
+
+  card: {
+    backgroundColor: Colors.surface,
+    padding: 24,
+    borderRadius: 16,
+    borderColor: Colors.border,
+    borderWidth: 1,
+    shadowColor: "#000",
+    shadowOpacity: 0.05,
+    shadowRadius: 5,
     elevation: 2,
-    shadowColor: 'black',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.35,
-    shadowRadius: 4,
   },
-  buttons: {
-    marginTop: 8,
+
+  title: {
+    fontSize: 22,
+    fontWeight: "700",
+    marginBottom: 20,
+    textAlign: "center",
+    color: Colors.primary800,
   },
+
   switchButton: {
-    color: Colors.primary100,
-    fontWeight: 'bold',
+    marginTop: 12,
+    color: Colors.primary500,
+    textAlign: "center",
     fontSize: 16,
-    textAlign: 'center',
+    writingDirection: "rtl",
   },
 });

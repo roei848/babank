@@ -1,40 +1,25 @@
-import { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import Button from '../ui/Button.js';
-import Input from '../ui/Input.js';
+import { useState } from "react";
+import { View, StyleSheet } from "react-native";
+import Input from "../ui/Input";
+import Button from "../ui/Button";
 
 function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
-  const [enteredEmail, setEnteredEmail] = useState('');
-  const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('');
-  const [enteredPassword, setEnteredPassword] = useState('');
-  const [enteredConfirmPassword, setEnteredConfirmPassword] = useState('');
+  const { email: emailInvalid, confirmEmail, password: passInvalid, confirmPassword } =
+    credentialsInvalid;
 
-  const {
-    email: emailIsInvalid,
-    confirmEmail: emailsDontMatch,
-    password: passwordIsInvalid,
-    confirmPassword: passwordsDontMatch,
-  } = credentialsInvalid;
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredConfirmEmail, setEnteredConfirmEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
+  const [enteredConfirmPassword, setEnteredConfirmPassword] = useState("");
 
-  function updateInputValueHandler(inputType, enteredValue) {
-    switch (inputType) {
-      case 'email':
-        setEnteredEmail(enteredValue);
-        break;
-      case 'confirmEmail':
-        setEnteredConfirmEmail(enteredValue);
-        break;
-      case 'password':
-        setEnteredPassword(enteredValue);
-        break;
-      case 'confirmPassword':
-        setEnteredConfirmPassword(enteredValue);
-        break;
-    }
+  function updateInputHandler(field, value) {
+    if (field === "email") setEnteredEmail(value);
+    if (field === "confirmEmail") setEnteredConfirmEmail(value);
+    if (field === "password") setEnteredPassword(value);
+    if (field === "confirmPassword") setEnteredConfirmPassword(value);
   }
 
-  function submitHandler() {
+  function submit() {
     onSubmit({
       email: enteredEmail,
       confirmEmail: enteredConfirmEmail,
@@ -45,47 +30,44 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 
   return (
     <View style={styles.form}>
-      <View>
+      <Input
+        label="דוא״ל"
+        value={enteredEmail}
+        isInvalid={emailInvalid}
+        onUpdateValue={(v) => updateInputHandler("email", v)}
+        keyboardType="email-address"
+      />
+
+      {!isLogin && (
         <Input
-          label="כתובת דואר אלקטרוני"
-          onUpdateValue={updateInputValueHandler.bind(this, 'email')}
-          value={enteredEmail}
+          label="אימות דוא״ל"
+          value={enteredConfirmEmail}
+          isInvalid={confirmEmail}
+          onUpdateValue={(v) => updateInputHandler("confirmEmail", v)}
           keyboardType="email-address"
-          isInvalid={emailIsInvalid}
         />
-        {!isLogin && (
-          <Input
-            label="אימות כתובת דואר אלקטרוני"
-            onUpdateValue={updateInputValueHandler.bind(this, 'confirmEmail')}
-            value={enteredConfirmEmail}
-            keyboardType="email-address"
-            isInvalid={emailsDontMatch}
-          />
-        )}
+      )}
+
+      <Input
+        label="סיסמה"
+        secure
+        value={enteredPassword}
+        isInvalid={passInvalid}
+        onUpdateValue={(v) => updateInputHandler("password", v)}
+      />
+
+      {!isLogin && (
         <Input
-          label="סיסמה"
-          onUpdateValue={updateInputValueHandler.bind(this, 'password')}
+          label="אימות סיסמה"
           secure
-          value={enteredPassword}
-          isInvalid={passwordIsInvalid}
+          value={enteredConfirmPassword}
+          isInvalid={confirmPassword}
+          onUpdateValue={(v) => updateInputHandler("confirmPassword", v)}
         />
-        {!isLogin && (
-          <Input
-            label="אימות סיסמה"
-            onUpdateValue={updateInputValueHandler.bind(
-              this,
-              'confirmPassword'
-            )}
-            secure
-            value={enteredConfirmPassword}
-            isInvalid={passwordsDontMatch}
-          />
-        )}
-        <View style={styles.buttons}>
-          <Button onPress={submitHandler}>
-            {isLogin ? 'כניסה' : 'הירשם'}
-          </Button>
-        </View>
+      )}
+
+      <View style={styles.buttonContainer}>
+        <Button onPress={submit}>{isLogin ? "כניסה" : "הירשם"}</Button>
       </View>
     </View>
   );
@@ -94,7 +76,10 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
 export default AuthForm;
 
 const styles = StyleSheet.create({
-  buttons: {
-    marginTop: 12,
+  form: {
+    gap: 12,
+  },
+  buttonContainer: {
+    marginTop: 16,
   },
 });

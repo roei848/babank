@@ -1,16 +1,13 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-
-import { Colors } from '../../constants/style.js';
+import { Pressable, StyleSheet, Text } from "react-native";
+import { Colors } from "../../constants/style.js";
 
 function FlatButton({ children, onPress, textStyle }) {
   return (
     <Pressable
-      style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+      style={({ pressed }) => [pressed && styles.pressed]}
       onPress={onPress}
     >
-      <View>
-        <Text style={[styles.buttonText, textStyle]}>{children}</Text>
-      </View>
+      <Text style={[styles.buttonText, textStyle]}>{children}</Text>
     </Pressable>
   );
 }
@@ -18,14 +15,15 @@ function FlatButton({ children, onPress, textStyle }) {
 export default FlatButton;
 
 const styles = StyleSheet.create({
-  button: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-  },
   pressed: {
-    opacity: 0.7,
+    opacity: 0.6,
   },
+
   buttonText: {
-    color: Colors.primary800,
+    color: Colors.primary500,
+    fontSize: 15,
+    fontWeight: "600",
+    paddingVertical: 8,
+    textAlign: "center",
   },
 });
