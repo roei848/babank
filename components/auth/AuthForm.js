@@ -36,6 +36,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         isInvalid={emailInvalid}
         onUpdateValue={(v) => updateInputHandler("email", v)}
         keyboardType="email-address"
+        textAlign="left"
       />
 
       {!isLogin && (
@@ -45,6 +46,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           isInvalid={confirmEmail}
           onUpdateValue={(v) => updateInputHandler("confirmEmail", v)}
           keyboardType="email-address"
+          textAlign="left"
         />
       )}
 
@@ -54,6 +56,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
         value={enteredPassword}
         isInvalid={passInvalid}
         onUpdateValue={(v) => updateInputHandler("password", v)}
+        textAlign="left"
       />
 
       {!isLogin && (
@@ -63,6 +66,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }) {
           value={enteredConfirmPassword}
           isInvalid={confirmPassword}
           onUpdateValue={(v) => updateInputHandler("confirmPassword", v)}
+          textAlign="left"
         />
       )}
 

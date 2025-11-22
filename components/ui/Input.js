@@ -9,6 +9,7 @@ function Input({
   value,
   isInvalid,
   style,
+  textAlign = "right",
   amount = false,
 }) {
   const sanitizedValue =
@@ -40,7 +41,7 @@ function Input({
             }
           }}
           value={sanitizedValue}
-          textAlign="left" // LEFT-ALIGNED FOR LOGIN + SIGNUP
+          textAlign={textAlign}
         />
 
         {amount && <Text style={styles.currencySymbol}>₪</Text>}
@@ -60,7 +61,6 @@ const styles = StyleSheet.create({
   label: {
     color: Colors.primary800,
     fontSize: 15,
-    fontWeight: "600",
     marginBottom: 4,
   },
 

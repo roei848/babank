@@ -7,7 +7,7 @@ import SectionHeader from "./SectionHeader";
 import AddButton from "./buttons/AddButton";
 import RemoveButton from "./buttons/RemoveButton";
 import { Colors } from "../../constants/style";
-import { LocationEnum } from "../../models/Report";
+import { AccountNameEnum, LocationEnum } from "../../models/Report";
 
 export default function AccountsSection({
   expanded,
@@ -27,10 +27,14 @@ export default function AccountsSection({
             <View key={index} style={styles.accountBlock}>
               {/* Row 1 — Name + Balance */}
               <View style={styles.row}>
-                <Input
+                <SelectInput
                   label="שם חשבון"
                   value={item.name}
-                  onUpdateValue={(val) => onChange(index, "name", val)}
+                  onValueChange={(val) => onChange(index, "name", val)}
+                  items={Object.values(AccountNameEnum).map((name) => ({
+                    label: name,
+                    value: name,
+                  }))}
                   style={styles.nameInput}
                   isInvalid={invalidItems[index]?.name || false}
                 />

@@ -38,26 +38,30 @@ const styles = StyleSheet.create({
   },
   label: {
     color: Colors.primary800,
+    fontSize: 15,
     marginBottom: 4,
-    fontWeight: "500",
   },
   labelInvalid: {
     color: Colors.error500,
   },
   selectContainer: {
     backgroundColor: Colors.primary100,
-    borderRadius: 4,
-    height: 40,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: Colors.border,
+    height: 46,
+    justifyContent: "center",
+    paddingHorizontal: 12,
   },
   input: {
-    paddingVertical: 10,
-    paddingHorizontal: 8,
     fontSize: 16,
     color: Colors.primary800,
+    paddingVertical: 0,
+    paddingHorizontal: 0,
   },
-  iconContainer: {
-    top: 14,
-    right: 10,
+  inputContainer: {
+    gap: 4,
+    marginBottom: 14,
   },
   selectContainerInvalid: {
     backgroundColor: Colors.error100,
