@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   label: {
-    color: Colors.primary800,
+    color: Colors.primary500,
     marginBottom: 4,
     fontWeight: "500",
   },

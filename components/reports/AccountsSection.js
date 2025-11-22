@@ -4,9 +4,12 @@ import AccountItem from "./AccountItem";
 import PieChart from "../charts/PieChart";
 import SectionTitle from "../ui/SectionTitle";
 
-const AccountsSection = ({ currAccounts, prevAccounts, totalAccounts, accountsGrowth }) => {
-  console.log("prevAccounts", prevAccounts);
-
+const AccountsSection = ({
+  currAccounts,
+  prevAccounts,
+  totalAccounts,
+  accountsGrowth,
+}) => {
   return (
     <View style={styles.container}>
       <SectionTitle title="חשבונות" icon="wallet" />
@@ -25,7 +28,9 @@ const AccountsSection = ({ currAccounts, prevAccounts, totalAccounts, accountsGr
         renderItem={({ item }) => (
           <AccountItem
             account={item}
-            prevAccount={prevAccounts?.find((acc) => acc.name === item.name) || null}
+            prevAccount={
+              prevAccounts?.find((acc) => acc.name === item.name) || null
+            }
           />
         )}
         scrollEnabled={false}

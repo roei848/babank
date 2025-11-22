@@ -10,7 +10,7 @@ if (global.ErrorUtils) {
 }
 
 import { useContext } from "react";
-import { I18nManager } from "react-native";
+import { I18nManager, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -33,29 +33,64 @@ I18nManager.forceRTL(true);
 
 const Stack = createNativeStackNavigator();
 
-// ----- Auth stack -----
 function AuthStack() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "#fff" },
+        headerTitleAlign: "right",
+      }}
+    >
       <Stack.Screen
         name="Login"
         component={LoginScreen}
-        options={{ title: "Login" }}
+        options={{
+          headerTitle: () => (
+            <Text style={{
+              fontSize: 20,
+              fontWeight: "700",
+              textAlign: "right",
+              width: "100%",
+              writingDirection: "rtl",
+            }}>
+              כניסה
+            </Text>
+          ),
+        }}
       />
+
       <Stack.Screen
         name="Signup"
         component={SignUpScreen}
-        options={{ title: "Create Account" }}
+        options={{
+          headerTitle: () => (
+            <Text style={{
+              fontSize: 20,
+              fontWeight: "700",
+              textAlign: "right",
+              width: "100%",
+              writingDirection: "rtl",
+            }}>
+              יצירת חשבון
+            </Text>
+          ),
+        }}
       />
     </Stack.Navigator>
   );
 }
 
+
 // ----- Authenticated stack -----
 function AuthenticatedStack() {
   return (
     <ReportsProvider>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitleAlign: "right",
+          headerTitleStyle: { writingDirection: "rtl", textAlign: "right" },
+        }}
+      >
         <Stack.Screen
           name="TabNavigator"
           component={TabNavigator}

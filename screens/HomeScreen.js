@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => {
   const previous = reports && reports.length > 1 ? reports[1] : null;
 
   if (loading) {
-    return <LoadingOverlay message="Loading last report..." />;
+    return <LoadingOverlay message="טוען דו&quot;ח האחרון..." />;
   }
 
   // return (
@@ -27,7 +27,7 @@ const HomeScreen = ({ navigation }) => {
       {current ? (
         <LastReport currReport={current} prevReport={previous} />
       ) : (
-        <Text style={styles.noReportText}>No reports found yet</Text>
+        <Text style={styles.noReportText}>אין דו\"חות מוכנים עדיין</Text>
       )}
     </View>
   );
