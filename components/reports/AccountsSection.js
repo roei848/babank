@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 import AccountItem from "./AccountItem";
+import SectionTitle from "../ui/SectionTitle";
 
 const AccountsSection = ({ currAccounts, prevAccounts }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Accounts</Text>
+      <SectionTitle title="חשבונות" icon="wallet" />
       <FlatList
         data={currAccounts}
         keyExtractor={(_, index) => index.toString()}

@@ -1,10 +1,12 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
+
 import Expense from "./Expense";
+import SectionTitle from "../ui/SectionTitle";
 
 const ExpensesSection = ({ expenses }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Expenses</Text>
+      <SectionTitle title="הוצאות" icon="trending-down" />
       <FlatList
         data={expenses}
         keyExtractor={(_, index) => index.toString()}

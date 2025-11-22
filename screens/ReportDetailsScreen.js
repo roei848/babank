@@ -1,5 +1,5 @@
 import { useLayoutEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import ExpensesSection from "../components/reports/ExpensesSection";
 import IncomesSection from "../components/reports/IncomesSection";
 import AccountsSection from "../components/reports/AccountsSection";
@@ -22,11 +22,15 @@ const ReportDetailsScreen = ({ route, navigation }) => {
   }, [navigation, currReport]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      contentContainerStyle={styles.content}
+      showsVerticalScrollIndicator={false}
+    >
       <View style={styles.header}>
-        <Text style={styles.subtitle}>Month: {currReport.month}</Text>
+        <Text style={styles.subtitle}>{currReport.month}</Text>
         <Text style={styles.subtitle}>
-          Date: {formatFirestoreDate(currReport.date)}
+          {formatFirestoreDate(currReport.date)}
         </Text>
       </View>
       <PieChart
@@ -36,9 +40,9 @@ const ReportDetailsScreen = ({ route, navigation }) => {
         data={currReport.accounts.map((acc) => ({ label: acc.name, value: acc.balance }))}
       />
       <AccountsSection currAccounts={currReport.accounts} prevAccounts={prevReport?.accounts || null} />
-      <ExpensesSection expenses={currReport.expenses} />
       <IncomesSection incomes={currReport.incomes} />
-    </View>
+      <ExpensesSection expenses={currReport.expenses} />
+    </ScrollView>
   );
 };
 
@@ -48,9 +52,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  content: {
     justifyContent: "flex-start",
     padding: 16,
     gap: 16,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   subtitle: {
     fontSize: 16,

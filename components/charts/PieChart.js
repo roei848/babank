@@ -7,14 +7,12 @@ import { ChartColors, Colors } from "../../constants/style";
 import { formatNumberWithCommas } from "../../utils/helper";
 
 const PieChart = ({ data, total, title, growth }) => {
-  const size = 250;
-  const strokeWidth = 18;
+  const size = 280;
+  const strokeWidth = 16;
   const radius = (size - strokeWidth) / 2;
   const center = size / 2;
 
-  const GAP = 12;
-
-  console.log("data", data);
+  const GAP = 10;
 
   // Format growth value for display
   let growthText = "";
@@ -33,16 +31,42 @@ const PieChart = ({ data, total, title, growth }) => {
     }
   }
 
-  // ---- Sanitize & sort largest → smallest ----
-  const cleanData = data
-    .map((item) => ({
-      label: item.label,
-      value: Number(item.value) || 0,
-    }))
-    .sort((a, b) => b.value - a.value) // largest → smallest
+  // ---- Sanitize & group < 10% into "Other" ----
+  const sanitizedData = data.map((item) => ({
+    label: item.label,
+    value: Number(item.value) || 0,
+  }));
+
+  const rawTotal = sanitizedData.reduce((sum, item) => sum + item.value, 0) || 1;
+
+  const bigSlices = [];
+  let otherValue = 0;
+  const otherLabels = [];
+
+  sanitizedData.forEach((item) => {
+    const percentage = (item.value / rawTotal) * 100;
+    if (percentage < 10) {
+      otherValue += item.value;
+      otherLabels.push(item.label);
+    } else {
+      bigSlices.push(item);
+    }
+  });
+
+  if (otherValue > 0) {
+    bigSlices.push({
+      label: "אחר",
+      value: otherValue,
+      otherLabels,
+    });
+  }
+
+  // ---- Sort largest → smallest and attach colors ----
+  const cleanData = bigSlices
+    .sort((a, b) => b.value - a.value)
     .map((item, index) => ({
       ...item,
-      color: ChartColors[index % ChartColors.length], // give color by size
+      color: ChartColors[index % ChartColors.length],
     }));
 
   const totalValue = cleanData.reduce((sum, item) => sum + item.value, 0) || 1;
@@ -132,12 +156,17 @@ const PieChart = ({ data, total, title, growth }) => {
       >
         {cleanData.map((item, i) => {
           const percentage = ((item.value / totalValue) * 100).toFixed(2);
+          const otherDetails =
+            item.otherLabels && item.otherLabels.length > 0
+              ? ` (${item.otherLabels.join(", ")})`
+              : "";
 
           return (
             <View key={i} style={styles.legendItem}>
               <View style={[styles.dot, { backgroundColor: item.color }]} />
               <Text style={styles.legendText}>
-                {item.label} {percentage}%
+                {item.label}
+                {otherDetails} {percentage}%
               </Text>
             </View>
           );
