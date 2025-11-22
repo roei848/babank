@@ -22,7 +22,7 @@ export default function ExpensesSection({
 }) {
   return (
     <>
-      <SectionHeader title="Expenses" expanded={expanded} onPress={onToggle} />
+      <SectionHeader title="הוצאות" expanded={expanded} onPress={onToggle} />
       <Collapsible collapsed={!expanded}>
         <View style={styles.sectionContent}>
           {expenses.map((expense, index) => (
@@ -31,7 +31,7 @@ export default function ExpensesSection({
               {/* Payment Method Row */}
               <View style={styles.itemRow}>
                 <Input
-                  label="Payment Method"
+                  label="שיטת תשלום"
                   value={expense.name}
                   onUpdateValue={(val) => onChange(index, "name", val)}
                   style={styles.paymentMethod}
@@ -40,7 +40,7 @@ export default function ExpensesSection({
 
                 <Input
                   amount
-                  label="Total Amount"
+                  label="סכום כולל"
                   keyboardType="numeric"
                   value={expense.total}
                   onUpdateValue={(val) => onChange(index, "total", val)}
@@ -52,12 +52,12 @@ export default function ExpensesSection({
               </View>
 
               {/* Major Expenses List */}
-              <Text style={styles.majorTitle}>Major Expenses</Text>
+              <Text style={styles.majorTitle}>הוצאות עיקריות</Text>
 
               {expense.majorExpenses?.map((me, meIndex) => (
                 <View key={meIndex} style={styles.majorRow}>
                   <Input
-                    label="Label"
+                    label="תיאור"
                     value={me.label}
                     onUpdateValue={(val) =>
                       onChangeMajor(index, meIndex, "label", val)
@@ -71,7 +71,7 @@ export default function ExpensesSection({
 
                   <Input
                     amount
-                    label="Amount"
+                    label="סכום"
                     keyboardType="numeric"
                     value={me.amount}
                     onUpdateValue={(val) =>
@@ -93,13 +93,13 @@ export default function ExpensesSection({
               {/* Add Major Expense Button */}
               <AddButton
                 onPress={() => onAddMajor(index)}
-                label="Add Major Expense"
+                label="הוספת הוצאה עיקרית"
               />
             </View>
           ))}
 
           {/* Add Expense */}
-          <AddButton onPress={onAdd} label="Add Expense" />
+          <AddButton onPress={onAdd} label="הוספת הוצאה" />
         </View>
       </Collapsible>
     </>

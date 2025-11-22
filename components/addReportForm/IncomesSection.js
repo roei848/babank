@@ -19,13 +19,13 @@ export default function IncomesSection({
 }) {
   return (
     <>
-      <SectionHeader title="Incomes" expanded={expanded} onPress={onToggle} />
+      <SectionHeader title="הכנסות" expanded={expanded} onPress={onToggle} />
       <Collapsible collapsed={!expanded}>
         <View style={styles.sectionContent}>
           {incomes.map((item, index) => (
             <View key={index} style={styles.itemRow}>
               <Input
-                label="Description"
+                label="תיאור"
                 value={item.description}
                 onUpdateValue={(val) => onChange(index, "description", val)}
                 style={styles.description}
@@ -33,7 +33,7 @@ export default function IncomesSection({
               />
               <Input
                 amount
-                label="Amount"
+                label="סכום"
                 keyboardType="numeric"
                 value={item.amount}
                 onUpdateValue={(val) => onChange(index, "amount", val)}
@@ -44,7 +44,7 @@ export default function IncomesSection({
             </View>
           ))}
 
-          <AddButton onPress={onAdd} label="Add Income" />
+          <AddButton onPress={onAdd} label="הוספת הכנסה" />
         </View>
       </Collapsible>
     </>

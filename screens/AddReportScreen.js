@@ -136,7 +136,7 @@ export default function AddReportScreen({ navigation }) {
     setInvalidFields(newInvalid);
 
     if (errors.length > 0) {
-      alert(`Please fix the following issues:\n\n${errors.join("\n")}`);
+      alert(`אנא תקן את הבעיות הבאות:\n\n${errors.join("\n")}`);
       setIsSaving(false);
       return;
     }
@@ -153,9 +153,9 @@ export default function AddReportScreen({ navigation }) {
       );
       await addReport(report);
       navigation.navigate("TabNavigator", { screen: "Home" });
-      alert("Report saved successfully!");
+      alert("דו\"ח נשמר בהצלחה!");
     } catch (error) {
-      alert("Error saving report: " + error.message);
+      alert("שגיאה בשמירת הדו\"ח: " + error.message);
     } finally {
       setIsSaving(false);
     }
@@ -220,7 +220,7 @@ export default function AddReportScreen({ navigation }) {
         disabled={isSaving}
       >
         <Text style={styles.saveButtonText}>
-          {isSaving ? "Saving..." : "Save Report"}
+          {isSaving ? "שומר..." : "שמירת דו\"ח"}
         </Text>
       </TouchableOpacity>
     </ScrollView>

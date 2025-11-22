@@ -1,12 +1,11 @@
 import { View, Text, StyleSheet } from "react-native";
-import { LocationTitleMap } from "../../models/Report";
 
 const AccountItem = ({ account }) => {
   return (
     <View style={styles.container}>
       <View style={styles.nameContainer}>
         <Text style={styles.name}>{account.name}</Text>
-        <Text style={styles.location}>({LocationTitleMap[account.location]})</Text>
+        <Text style={styles.location}>({account.location})</Text>
       </View>
       <Text style={styles.balance}>{account.balance} ₪</Text>
     </View>

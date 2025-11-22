@@ -20,7 +20,7 @@ export default function GeneralInfoSection({
   return (
     <>
       <SectionHeader
-        title="General Info"
+        title="פרטים כלליים"
         expanded={expanded}
         onPress={onToggle}
       />
@@ -28,14 +28,14 @@ export default function GeneralInfoSection({
         <View style={styles.sectionContent}>
           <Input
             style={styles.input}
-            label="Title"
+            label="כותרת"
             value={title}
             onUpdateValue={onChangeTitle}
             isInvalid={invalidTitle}
           />
           <SelectInput
             style={styles.selectInput}
-            label="Month"
+            label="חודש"
             value={month}
             onValueChange={onChangeMonth}
             isInvalid={invalidMonth}

@@ -16,11 +16,11 @@ const ReportCard = ({ currReport, prevReport }) => {
     >
       <Text style={styles.title}>{currReport.title}</Text>
       <Text style={styles.subtitle}>
-        Month: {currReport.month} | Date:{" "}
+        חודש: {currReport.month} | תאריך:{" "}
         {new Date(currReport.date).toLocaleDateString()}
       </Text>
       <Text style={styles.net}>
-        Net Result:{" "}
+        תוצאה נטו:{" "}
         {currReport.netResult ?? currReport.totalIncome - currReport.totalExpenses} ₪
       </Text>
     </Pressable>

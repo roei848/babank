@@ -19,9 +19,9 @@ const LastReport = ({ currReport, prevReport }) => {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <Title>{currReport.title}</Title>
-        <Text style={styles.subtitle}>Month: {currReport.month}</Text>
+        <Text style={styles.subtitle}>חודש: {currReport.month}</Text>
         <Text style={styles.subtitle}>
-          Date: {formatFirestoreDate(currReport.date)}
+          תאריך: {formatFirestoreDate(currReport.date)}
         </Text>
       </View>
       <PieChart
@@ -41,7 +41,7 @@ const LastReport = ({ currReport, prevReport }) => {
         textStyle={styles.linkButton}
         onPress={handleToFullReportLink}
       >
-        To Full Report
+        לדו"ח המלא
       </FlatButton>
     </ScrollView>
   );

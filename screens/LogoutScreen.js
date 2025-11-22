@@ -12,16 +12,16 @@ export default function LogoutScreen() {
   useFocusEffect(
     useCallback(() => {
       Alert.alert(
-        "Log out",
-        "Are you sure you want to log out?",
+        "התנתקות",
+        "האם אתה בטוח שברצונך להתנתק?",
         [
           {
-            text: "Cancel",
+            text: "ביטול",
             style: "cancel",
             onPress: () => navigation.goBack(),
           },
           {
-            text: "Yes",
+            text: "כן",
             style: "destructive",
             onPress: async () => {
               await firebaseLogout();

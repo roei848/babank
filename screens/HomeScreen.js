@@ -5,8 +5,9 @@ import LastReport from "../components/reports/LastReport";
 import LoadingOverlay from "../components/ui/LandingOverlay";
 import { Colors } from "../constants/style";
 import { useReports } from "../store/report-context";
+import Button from "../components/ui/Button";
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const { reports, loading } = useReports();
   const current = reports && reports.length > 0 ? reports[0] : null;
   const previous = reports && reports.length > 1 ? reports[1] : null;
@@ -14,6 +15,12 @@ const HomeScreen = () => {
   if (loading) {
     return <LoadingOverlay message="Loading last report..." />;
   }
+
+  // return (
+  //   <View style={styles.container}>
+  //     <Button onPress={() => navigation.navigate("AddJsonReport")}>Add JSON Report</Button>
+  //   </View>
+  // );
 
   return (
     <View style={styles.container}>
@@ -33,6 +40,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background || "#fff",
     padding: 16,
+    justifyContent: "center",
+    alignItems: "center",
   },
   noReportText: {
     fontSize: 16,

@@ -35,7 +35,7 @@ const ReportDetailsScreen = ({ route, navigation }) => {
         growth={accountsGrowth}
         data={currReport.accounts.map((acc) => ({ label: acc.name, value: acc.balance }))}
       />
-      <AccountsSection currAccounts={currReport.accounts} prevAccounts={prevReport.accounts} />
+      <AccountsSection currAccounts={currReport.accounts} prevAccounts={prevReport?.accounts || null} />
       <ExpensesSection expenses={currReport.expenses} />
       <IncomesSection incomes={currReport.incomes} />
     </View>

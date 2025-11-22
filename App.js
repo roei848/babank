@@ -10,6 +10,7 @@ if (global.ErrorUtils) {
 }
 
 import { useContext } from "react";
+import { I18nManager } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -23,6 +24,12 @@ import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import ReportDetailsScreen from "./screens/ReportDetailsScreen";
 import TabNavigator from "./navigation/TabNavigator";
+import AddJsonReportScreen from "./screens/AddJsonReportScreen";
+
+// Enable RTL (only once)
+I18nManager.allowRTL(true);
+I18nManager.forceRTL(true);
+
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +62,7 @@ function AuthenticatedStack() {
           options={{ headerShown: false }}
         />
         <Stack.Screen name="ReportDetails" component={ReportDetailsScreen} />
+        <Stack.Screen name="AddJsonReport" component={AddJsonReportScreen} />
       </Stack.Navigator>
     </ReportsProvider>
   );

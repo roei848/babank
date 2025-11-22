@@ -20,7 +20,7 @@ const SelectInput = ({ label, items, value, onValueChange, style, isInvalid = fa
             placeholder: { color: "#999" },
           }}
           useNativeAndroidPickerStyle={false}
-          placeholder={{ label: "Select...", value: null }}
+          placeholder={{ label: "בחירה...", value: null }}
           Icon={() => (
             <Ionicons name="chevron-down" size={18} color={Colors.primary800} />
           )}

@@ -17,7 +17,7 @@ const IncomeExpensesCard = ({ incomesTotal, expensesTotal }) => {
 
         <View style={styles.textWrapper}>
           <Text style={styles.amount}>₪{formatNumberWithCommas(incomesTotal)}</Text>
-          <Text style={styles.label}>Income</Text>
+          <Text style={styles.label}>הכנסות</Text>
         </View>
       </View>
 
@@ -32,7 +32,7 @@ const IncomeExpensesCard = ({ incomesTotal, expensesTotal }) => {
 
         <View style={styles.textWrapper}>
           <Text style={styles.amount}>₪{formatNumberWithCommas(expensesTotal)}</Text>
-          <Text style={styles.label}>Expense</Text>
+          <Text style={styles.label}>הוצאות</Text>
         </View>
       </View>
     </View>

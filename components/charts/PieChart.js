@@ -14,6 +14,8 @@ const PieChart = ({ data, total, title, growth }) => {
 
   const GAP = 12;
 
+  console.log("data", data);
+
   // Format growth value for display
   let growthText = "";
   let growthColor = Colors.border;
@@ -54,9 +56,16 @@ const PieChart = ({ data, total, title, growth }) => {
     };
   };
 
-  // ---- Trim arcs to create perfect visual gaps ----
+  // ---- Trim arcs to create visual gaps (even for tiny slices) ----
   const trimArc = (start, end, gapDeg) => {
-    const halfGap = gapDeg / 2;
+    const sliceSize = end - start;
+    if (sliceSize <= 0) return { start, end };
+
+    // Never trim more than a quarter of a tiny slice on each side,
+    // so even small segments keep a visible arc but still show a gap.
+    const maxHalfGapBySize = sliceSize / 4;
+    const halfGap = Math.min(gapDeg / 2, maxHalfGapBySize);
+
     return {
       start: start + halfGap,
       end: end - halfGap,
@@ -122,7 +131,7 @@ const PieChart = ({ data, total, title, growth }) => {
         contentContainerStyle={styles.legendContainer}
       >
         {cleanData.map((item, i) => {
-          const percentage = ((item.value / totalValue) * 100).toFixed(0);
+          const percentage = ((item.value / totalValue) * 100).toFixed(2);
 
           return (
             <View key={i} style={styles.legendItem}>

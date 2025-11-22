@@ -1,32 +1,43 @@
 // Enums converted to plain JS objects
 export const MonthEnum = {
-  JANUARY: "JANUARY",
-  FEBRUARY: "FEBRUARY",
-  MARCH: "MARCH",
-  APRIL: "APRIL",
-  MAY: "MAY",
-  JUNE: "JUNE",
-  JULY: "JULY",
-  AUGUST: "AUGUST",
-  SEPTEMBER: "SEPTEMBER",
-  OCTOBER: "OCTOBER",
-  NOVEMBER: "NOVEMBER",
-  DECEMBER: "DECEMBER",
+  JANUARY: "ינואר",
+  FEBRUARY: "פברואר",
+  MARCH: "מרץ",
+  APRIL: "אפריל",
+  MAY: "מאי",
+  JUNE: "יוני",
+  JULY: "יולי",
+  AUGUST: "אוגוסט",
+  SEPTEMBER: "ספטמבר",
+  OCTOBER: "אוקטובר",
+  NOVEMBER: "נובמבר",
+  DECEMBER: "דצמבר",
 };
+
 
 export const LocationEnum = {
-  OTZAR_HAYAL: "OTZAR_HAYAL",
-  ANALYST: "ANALYST",
-  MEITAV: "MEITAV",
-  CLAL: "CLAL",
+  OTZAR_HAYAL: "אוצר החייל",
+  ANALYST: "אנליסט",
+  MEITAV: "מיטב דש",
+  CLAL: "כלל ביטוח",
+  PHOENIX: "הפניקס",
+  ALTSHULER: "אלטשולר שחם",
+  OTHER: "אחר",
 };
 
-export const LocationTitleMap = {
-  [LocationEnum.OTZAR_HAYAL]: "Otzar Hayal",
-  [LocationEnum.ANALYST]: "Analyst Brokerage",
-  [LocationEnum.MEITAV]: "Meitav Fund",
-  [LocationEnum.CLAL]: "Clal Insurance",
+export const AccountNameEnum = {
+  CHECKING_ACCOUNT: "עו״ש",
+  MONEY_MARKET_FUND: "קרן כספית",
+  BANK_GUARANTEE: "ערבות בנקאית",
+  PROVIDENT_FUND: "קופת גמל",
+  EDUCATION_FUND: "קרן השתלמות",
+  INVESTMENTS: "השקעות",
+  PENSION: "פנסיה",
+  FIXED_DEPOSIT: "פיקדון",
+  FOREIGN_CURRENCY: "חשבון מט״ח",
+  OTHER: "אחר",
 };
+
 
 // -------------------------
 // Supporting classes

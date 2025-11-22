@@ -34,6 +34,7 @@ const TabNavigator = () => {
         name="Home"
         component={HomeScreen}
         options={{
+          title: "בית",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" size={size} color={color} />
@@ -44,7 +45,7 @@ const TabNavigator = () => {
         name="History"
         component={HistoryReportsScreen}
         options={{
-          title: "History",
+          title: "היסטוריה",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="list" size={size} color={color} />
           ),
@@ -54,7 +55,7 @@ const TabNavigator = () => {
         name="AddReport"
         component={AddReportScreen}
         options={{
-          title: "Add Report",
+          title: "הוספת דו\"ח",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="add-circle" size={size} color={color} />
           ),
@@ -64,6 +65,7 @@ const TabNavigator = () => {
         name="Logout"
         component={LogoutScreen}
         options={{
+          title: "התנתקות",
           headerShown: false,
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="log-out-outline" size={size} color={color} />

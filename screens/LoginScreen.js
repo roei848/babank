@@ -23,13 +23,13 @@ function LoginScreen() {
       authCtx.authenticate(token);
     } catch (error) {
       console.error("Login error:", error);
-      Alert.alert("Login failed", "Please check your email and password.");
+      Alert.alert("כניסה נכשלה", "אנא ודאו את הפרטים שלכם או נסו שנית מאוחר יותר.");
       setIsAuthenticating(false);
     }
   }
 
   if (isAuthenticating) {
-    return <LoadingOverlay message="Logging you in..." />;
+    return <LoadingOverlay message="נכנס למערכת..." />;
   }
 
   return <AuthContent isLogin onAuthenticate={loginHandler} />;

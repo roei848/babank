@@ -7,7 +7,7 @@ import SectionHeader from "./SectionHeader";
 import AddButton from "./buttons/AddButton";
 import RemoveButton from "./buttons/RemoveButton";
 import { Colors } from "../../constants/style";
-import { LocationEnum, LocationTitleMap } from "../../models/Report";
+import { LocationEnum } from "../../models/Report";
 
 export default function AccountsSection({
   expanded,
@@ -20,7 +20,7 @@ export default function AccountsSection({
 }) {
   return (
     <>
-      <SectionHeader title="Accounts" expanded={expanded} onPress={onToggle} />
+      <SectionHeader title="חשבונות" expanded={expanded} onPress={onToggle} />
       <Collapsible collapsed={!expanded}>
         <View style={styles.sectionContent}>
           {accounts.map((item, index) => (
@@ -28,14 +28,14 @@ export default function AccountsSection({
               {/* Row 1 — Name + Balance */}
               <View style={styles.row}>
                 <Input
-                  label="Account Name"
+                  label="שם חשבון"
                   value={item.name}
                   onUpdateValue={(val) => onChange(index, "name", val)}
                   style={styles.nameInput}
                   isInvalid={invalidItems[index]?.name || false}
                 />
                 <Input
-                  label="Balance"
+                  label="יתרה"
                   amount
                   keyboardType="numeric"
                   value={item.balance}
@@ -48,11 +48,11 @@ export default function AccountsSection({
               {/* Row 2 — Location + Remove */}
               <View style={styles.row}>
                 <SelectInput
-                  label="Location"
+                  label="מיקום"
                   value={item.location}
                   onValueChange={(val) => onChange(index, "location", val)}
                   items={Object.values(LocationEnum).map((loc) => ({
-                    label: LocationTitleMap[loc],
+                    label: loc,
                     value: loc,
                   }))}
                   style={styles.locationInput}
@@ -63,7 +63,7 @@ export default function AccountsSection({
             </View>
           ))}
 
-          <AddButton onPress={onAdd} label="Add Account" />
+          <AddButton onPress={onAdd} label="הוספת חשבון" />
         </View>
       </Collapsible>
     </>

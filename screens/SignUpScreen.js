@@ -24,13 +24,13 @@ function SignupScreen() {
 
     } catch (error) {
       console.error("Signup error:", error);
-      Alert.alert("Authentication failed", "Please check your credentials or try again later.");
+      Alert.alert("אימות נכשל", "אנא ודאו את הפרטים שלך או נסו שנית מאוחר יותר.");
       setIsAuthenticating(false);
     }
   };
 
   if (isAuthenticating) {
-    return <LoadingOverlay message="Creating user..." />;
+    return <LoadingOverlay message="יצירת משתמש..." />;
   }
 
   return <AuthContent onAuthenticate={signupHandler} />;

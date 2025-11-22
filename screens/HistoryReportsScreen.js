@@ -16,7 +16,7 @@ const HistoryReportsScreen = () => {
     return (
       <View style={styles.centered}>
         <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={styles.loadingText}>Loading reports...</Text>
+        <Text style={styles.loadingText}>טוען דו"חות...</Text>
       </View>
     );
   }
@@ -24,7 +24,7 @@ const HistoryReportsScreen = () => {
   if (reports.length === 0) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.emptyText}>No reports found yet.</Text>
+        <Text style={styles.emptyText}>אין דו"חות מוכנים עדיין.</Text>
       </View>
     );
   }
