@@ -11,8 +11,8 @@ const IncomeExpensesCard = ({ incomesTotal, expensesTotal }) => {
     <View style={styles.card}>
       {/* Income */}
       <View style={styles.section}>
-        <View style={[styles.iconWrapper, { backgroundColor: Colors.primary100 }]}>
-          <FontAwesome5 name="piggy-bank" size={26} color={Colors.primary500} />
+        <View style={[styles.iconWrapper, { backgroundColor: Colors.success100 }]}>
+          <FontAwesome5 name="piggy-bank" size={26} color={Colors.success500} />
         </View>
 
         <View style={styles.textWrapper}>

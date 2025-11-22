@@ -18,6 +18,7 @@ export const Colors = {
   // Status Colors
   error100: "#FFEAEA",
   error500: "#FF6B6B",
+  success100: "#E6F9EB",
   success500: "#4CAF50",
   gray: "#666",
 };
